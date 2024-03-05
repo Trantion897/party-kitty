@@ -9,11 +9,11 @@ import AddMoney from './components/AddMoney.vue'
 
     <div class="wrapper">
       <TheKitty />
-      <add-money />
     </div>
   </header>
 
   <main>
+      <add-money />
   </main>
 </template>
 
