@@ -5,7 +5,12 @@ import MoneyInput from './MoneyInput.vue'
 import MoneyDisplay from './MoneyDisplay.vue'
 import SplitControl from './SplitControl.vue'
 
-const moneyInput = ref({});
+const currencies = ['GP', 'SP', 'CP'];
+const amount = ref({
+	GP: 0,
+	SP: 0,
+	CP: 0
+});
 const partySize = ref(1);
 const splitRatio = ref(33); 
 
@@ -23,7 +28,7 @@ const onChangeSplitRatio = function(newRatio) {
 }
 
 const onChangeMoneyInput = function(currency, newValue) {
-    moneyInput.value[currency] = newValue;
+    amount.value[currency] = newValue;
     updateSplit();
 }
 
@@ -66,10 +71,16 @@ const calculateSplit = function(totalMoney, numPlayers) {
 }
 
 const updateSplit = function() {
-	const gpSplit = calculateSplit(moneyInput.value.GP, partySize.value);
+	const playerSplit = {};
+	const partySplit = {};
+	currencies.forEach((currency) => {
+		const split = calculateSplit(amount.value[currency], partySize.value);
+		playerSplit[currency] = split.player;
+		partySplit[currency] = split.kitty;
+	});
 	
-	playerShare.value = gpSplit.player;
-	partyShare.value = gpSplit.kitty;
+	playerShare.value = playerSplit;
+	partyShare.value = partySplit;
 }
 
 </script>
@@ -77,24 +88,14 @@ const updateSplit = function() {
 <template>
 	<section>
 		<h3>Add money</h3>
-		<ol>
-			<li>
-				<money-input currency="GP" @change="onChangeMoneyInput"></money-input>
-			</li>
-			<li>
-				<money-input currency="SP" @change="onChangeMoneyInput"></money-input>
-			</li>
-			<li>
-				<money-input currency="CP" @change="onChangeMoneyInput"></money-input>
-			</li>
-		</ol>
+		<money-input :currencies="currencies" :amounts="amount" @change="onChangeMoneyInput"></money-input>
 		<split-control :partySize="partySize" @changePartySize="onChangePartySize" :splitRatio="splitRatio" @changeSplitRatio="onChangeSplitRatio"></split-control>
 		
 		<dl>
 		    <dt>Each player receives</dt>
-		    <dd>{{playerShare}}</dd>
+		    <dd><money-display :currencies="currencies" :amounts="playerShare"></money-display></dd>
 		    <dt>Party kitty receives</dt>
-		    <dd>{{partyShare}}</dd>
+		    <dd><money-display :currencies="currencies" :amounts="partyShare"></money-display></dd>
 		</dl>
 	</section>
 </template>					
