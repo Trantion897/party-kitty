@@ -6,6 +6,54 @@ import MoneyDisplay from './MoneyDisplay.vue'
 import SplitControl from './SplitControl.vue'
 
 const currencies = ['GP', 'SP', 'CP'];
+const conversionRates = [10, 10];
+
+/**
+ * Convert from one currency to another
+ *
+ * @param cur array of currency names, [FROM, TO]
+ * @param amount int Amount of money in starting currency
+ * @return object Converted value in target currency, and remainder (if any) in all smaller denominations
+ */
+const currencyConvert = function(cur, amount) {
+	const startCurrencyName = cur[0];
+	const endCurrencyName = cur[1];
+	
+	if (!currencies.every((c) => currencies.includes(c))) {
+		const result = {startCurrencyName: amount};
+		return result;
+	}
+	
+	const fromIndex = currencies.indexOf(cur[0]);
+	const toIndex = currencies.indexOf(cur[1]);
+	const step = (fromIndex < toIndex) ? 1 : -1;
+	
+	const result = {};
+	
+	let stepsRun = 0;
+	
+	for (let i = fromIndex; i != toIndex; i += step) {
+		const convertingFrom = currencies[i];
+		
+		if (toIndex > fromIndex) {
+			// Reducing demonination, multiply the amount
+			const conv = conversionRates[i];
+			amount = amount * conv;
+		} else {
+			// Increasing denomination, divide and store the remainder
+			const conv = conversionRates[i-1];
+			const converted = Math.floor(amount / conv);
+			const remainder = amount % conv;
+			
+			result[convertingFrom] = remainder;
+			amount = converted;
+		}
+	}
+	result[endCurrencyName] = amount;
+	
+	return result;
+};
+
 const amount = ref({
 	GP: 0,
 	SP: 0,
@@ -27,8 +75,22 @@ const onChangeSplitRatio = function(newRatio) {
     updateSplit();
 }
 
-const onChangeMoneyInput = function(currency, newValue) {
-    amount.value[currency] = newValue;
+const onChangeMoneyInput = function(newInput) {
+	const normalised = {}
+	for (const cur in newInput) {
+		const amountThisCur = newInput[cur];
+		const convertedInput = currencyConvert([cur, currencies[0]], amountThisCur);
+		for (const c in convertedInput) {
+			const convertedAmount = convertedInput[c];
+			if (c in normalised) {
+				normalised[c] += convertedAmount;
+			} else {
+				normalised[c] = convertedAmount;
+			}
+		}
+	}
+	
+    amount.value = normalised;
     updateSplit();
 }
 

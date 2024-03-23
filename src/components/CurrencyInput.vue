@@ -9,7 +9,7 @@ const props = defineProps({
 });
 
 const changeValue = function(event) {
-    emit("change", props.currency, event.target.value);
+    emit("change", props.currency, Number(event.target.value));
 }
 </script>
 
