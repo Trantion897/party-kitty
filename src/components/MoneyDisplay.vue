@@ -13,3 +13,16 @@ const props = defineProps({
 		</li>
 	</ol>
 </template>
+
+<style scoped>
+	ol {
+		list-style-type:none;
+		margin:0 10px 10px;
+	}
+	li {
+		display:inline-block;
+		min-width:80px;
+		margin: 0 10px;
+		
+	}
+</style>

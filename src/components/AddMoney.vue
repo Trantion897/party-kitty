@@ -151,6 +151,7 @@ const updateSplit = function() {
 	<section>
 		<h3>Add money</h3>
 		<money-input :currencies="currencies" :amounts="amount" @change="onChangeMoneyInput"></money-input>
+		<money-display :currencies="currencies" :amounts="amount"></money-display>
 		<split-control :partySize="partySize" @changePartySize="onChangePartySize" :splitRatio="splitRatio" @changeSplitRatio="onChangeSplitRatio"></split-control>
 		
 		<dl>
