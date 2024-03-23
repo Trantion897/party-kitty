@@ -16,7 +16,9 @@ const changeValue = function(currency, value) {
 </script>
 
 <template>
-	<div class="input-group mb-3" v-for="currency in currencies">
-	    <currency-input :currency="currency" :amount="amounts[currency]" @change="changeValue"></currency-input>
+	<div class="row">
+		<div class="input-group mb-3 col" v-for="currency in currencies">
+	    	<currency-input :currency="currency" :amount="amounts[currency]" @change="changeValue"></currency-input>
+		</div>
 	</div>
 </template>
