@@ -1,58 +1,13 @@
 <script setup>
 import { ref, watch } from 'vue';
+import { kittyStore } from '@/stores/kitty';
+import { useCurrencyStore } from '@/stores/currency';
 
 import MoneyInputGroup from './MoneyInputGroup.vue'
 import MoneyDisplay from './MoneyDisplay.vue'
 import SplitControl from './SplitControl.vue'
 
-const currencies = ['GP', 'SP', 'CP'];
-const conversionRates = [10, 10];
-
-/**
- * Convert from one currency to another
- *
- * @param cur array of currency names, [FROM, TO]
- * @param amount int Amount of money in starting currency
- * @return object Converted value in target currency, and remainder (if any) in all smaller denominations
- */
-const currencyConvert = function(cur, amount) {
-	const startCurrencyName = cur[0];
-	const endCurrencyName = cur[1];
-	
-	if (!currencies.every((c) => currencies.includes(c))) {
-		const result = {startCurrencyName: amount};
-		return result;
-	}
-	
-	const fromIndex = currencies.indexOf(cur[0]);
-	const toIndex = currencies.indexOf(cur[1]);
-	const step = (fromIndex < toIndex) ? 1 : -1;
-	
-	const result = {};
-	
-	let stepsRun = 0;
-	
-	for (let i = fromIndex; i != toIndex; i += step) {
-		const convertingFrom = currencies[i];
-		
-		if (toIndex > fromIndex) {
-			// Reducing demonination, multiply the amount
-			const conv = conversionRates[i];
-			amount = amount * conv;
-		} else {
-			// Increasing denomination, divide and store the remainder
-			const conv = conversionRates[i-1];
-			const converted = Math.floor(amount / conv);
-			const remainder = amount % conv;
-			
-			result[convertingFrom] = remainder;
-			amount = converted;
-		}
-	}
-	result[endCurrencyName] = amount;
-	
-	return result;
-};
+const currencyStore = useCurrencyStore();
 
 const amount = ref({
 	GP: 0,
@@ -79,7 +34,7 @@ const onChangeMoneyInput = function(newInput) {
 	const normalised = {}
 	for (const cur in newInput) {
 		const amountThisCur = newInput[cur];
-		const convertedInput = currencyConvert([cur, currencies[0]], amountThisCur);
+		const convertedInput = currencyStore.currencyConvert([cur, currencyStore.currencies[0]], amountThisCur);
 		for (const c in convertedInput) {
 			const convertedAmount = convertedInput[c];
 			if (c in normalised) {
@@ -135,7 +90,7 @@ const calculateSplit = function(totalMoney, numPlayers) {
 const updateSplit = function() {
 	const playerSplit = {};
 	const partySplit = {};
-	currencies.forEach((currency) => {
+	currencyStore.currencies.forEach((currency) => {
 		const split = calculateSplit(amount.value[currency], partySize.value);
 		playerSplit[currency] = split.player;
 		partySplit[currency] = split.kitty;
@@ -150,15 +105,15 @@ const updateSplit = function() {
 <template>
 	<section>
 		<h3>Add money</h3>
-		<money-input-group :currencies="currencies" @change="onChangeMoneyInput"></money-input-group>
-		<money-display :currencies="currencies" :amounts="amount"></money-display>
+		<money-input-group @change="onChangeMoneyInput"></money-input-group>
+		<money-display :amounts="amount"></money-display>
 		<split-control :partySize="partySize" @changePartySize="onChangePartySize" :splitRatio="splitRatio" @changeSplitRatio="onChangeSplitRatio"></split-control>
 		
 		<dl>
 		    <dt>Each player receives</dt>
-		    <dd><money-display :currencies="currencies" :amounts="playerShare"></money-display></dd>
+		    <dd><money-display :amounts="playerShare"></money-display></dd>
 		    <dt>Party kitty receives</dt>
-		    <dd><money-display :currencies="currencies" :amounts="partyShare"></money-display></dd>
+		    <dd><money-display :amounts="partyShare"></money-display></dd>
 		</dl>
 	</section>
 </template>					

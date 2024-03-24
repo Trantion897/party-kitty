@@ -1,14 +1,17 @@
 <script setup>
 import CurrencyDisplay from './CurrencyDisplay.vue'
+import { useCurrencyStore } from '@/stores/currency';
+
+const currencyStore = useCurrencyStore();
+
 const props = defineProps({
-	currencies: Array,
 	amounts: Object
 });
 </script>
 
 <template>
 	<ol>
-		<li v-for="currency in currencies">
+		<li v-for="currency in currencyStore.currencies">
 			<currency-display :currency="currency" :amount="amounts[currency]"></currency-display>
 		</li>
 	</ol>

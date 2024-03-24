@@ -1,11 +1,10 @@
 <script setup>
     import { ref, onMounted } from 'vue';
+    import { useCurrencyStore } from '@/stores/currency';
     
     import MoneyInput from './MoneyInput.vue'
     
-    const props = defineProps({
-        currencies: Array,
-    });
+    const currencyStore = useCurrencyStore();
     
     const emit = defineEmits(['change']);
     
@@ -28,7 +27,7 @@
     const onChangeMoneyInput = function(index, input) {
         
         inputAmounts.value[index] = {...inputAmounts.value[index], ...input};
-        const currencies = this.props.currencies;
+        const currencies = currencyStore.currencies;
         
         // Clear any row that is all zeros and not at the end
         function isNotEmpty(amount) {
@@ -67,7 +66,7 @@
 <template>
     <ul>
         <li v-for="amount, index in inputAmounts" :key="amount.key">
-            <money-input :currencies="currencies" :amounts="amount" @change="onChangeMoneyInput(index, $event)"></money-input>
+            <money-input :amounts="amount" @change="onChangeMoneyInput(index, $event)"></money-input>
         </li>
     </ul>
 </template>
