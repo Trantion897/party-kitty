@@ -1,11 +1,12 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { kittyStore } from '@/stores/kitty';
+import { useKittyStore } from '@/stores/kitty';
 import { useCurrencyStore } from '@/stores/currency';
 
 import MoneyInputGroup from './MoneyInputGroup.vue'
 import MoneyDisplay from './MoneyDisplay.vue'
 import SplitControl from './SplitControl.vue'
+import AddButton from './AddButton.vue'
 
 const currencyStore = useCurrencyStore();
 
@@ -100,14 +101,17 @@ const updateSplit = function() {
 	<section>
 		<h3>Add money</h3>
 		<money-input-group @change="onChangeMoneyInput"></money-input-group>
-		<money-display :amounts="amount"></money-display>
+		<money-display :amount="amount"></money-display>
 		<split-control :partySize="partySize" @changePartySize="onChangePartySize" :splitRatio="splitRatio" @changeSplitRatio="onChangeSplitRatio"></split-control>
 		
 		<dl>
 		    <dt>Each player receives</dt>
-		    <dd><money-display :amounts="playerShare"></money-display></dd>
+		    <dd><money-display :amount="playerShare"></money-display></dd>
 		    <dt>Party kitty receives</dt>
-		    <dd><money-display :amounts="partyShare"></money-display></dd>
+		    <dd>
+		    	<money-display :amount="partyShare"></money-display>
+		    	<add-button :amount="partyShare"></add-button>
+		    </dd>
 		</dl>
 	</section>
 </template>					

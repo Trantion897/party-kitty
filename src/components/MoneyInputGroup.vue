@@ -66,7 +66,7 @@
 <template>
     <ul>
         <li v-for="amount, index in inputAmounts" :key="amount.key">
-            <money-input :amounts="amount" @change="onChangeMoneyInput(index, $event)"></money-input>
+            <money-input :amount="amount" @change="onChangeMoneyInput(index, $event)"></money-input>
         </li>
     </ul>
 </template>

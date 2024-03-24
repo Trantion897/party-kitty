@@ -5,14 +5,14 @@ import { useCurrencyStore } from '@/stores/currency';
 const currencyStore = useCurrencyStore();
 
 const props = defineProps({
-	amounts: Object
+	amount: Object
 });
 </script>
 
 <template>
 	<ol>
 		<li v-for="currency in currencyStore.currencies">
-			<currency-display :currency="currency" :amount="amounts[currency]"></currency-display>
+			<currency-display :currency="currency" :amount="amount[currency]"></currency-display>
 		</li>
 	</ol>
 </template>
