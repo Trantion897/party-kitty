@@ -17,7 +17,8 @@ const props = defineProps({
 <style scoped>
 	ol {
 		list-style-type:none;
-		margin:0 10px 10px;
+		margin:0 10px 0px;
+		padding:0;
 	}
 	li {
 		display:inline-block;

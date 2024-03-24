@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 
-import MoneyInput from './MoneyInput.vue'
+import MoneyInputGroup from './MoneyInputGroup.vue'
 import MoneyDisplay from './MoneyDisplay.vue'
 import SplitControl from './SplitControl.vue'
 
@@ -150,7 +150,7 @@ const updateSplit = function() {
 <template>
 	<section>
 		<h3>Add money</h3>
-		<money-input :currencies="currencies" :amounts="amount" @change="onChangeMoneyInput"></money-input>
+		<money-input-group :currencies="currencies" @change="onChangeMoneyInput"></money-input-group>
 		<money-display :currencies="currencies" :amounts="amount"></money-display>
 		<split-control :partySize="partySize" @changePartySize="onChangePartySize" :splitRatio="splitRatio" @changeSplitRatio="onChangeSplitRatio"></split-control>
 		
