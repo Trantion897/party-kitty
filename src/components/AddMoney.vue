@@ -35,14 +35,8 @@ const onChangeMoneyInput = function(newInput) {
 	for (const cur in newInput) {
 		const amountThisCur = newInput[cur];
 		const convertedInput = currencyStore.currencyConvert([cur, currencyStore.currencies[0]], amountThisCur);
-		for (const c in convertedInput) {
-			const convertedAmount = convertedInput[c];
-			if (c in normalised) {
-				normalised[c] += convertedAmount;
-			} else {
-				normalised[c] = convertedAmount;
-			}
-		}
+		
+		currencyStore.addTo(normalised, convertedInput);
 	}
 	
     amount.value = normalised;

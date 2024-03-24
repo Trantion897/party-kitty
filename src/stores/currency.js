@@ -54,6 +54,22 @@ export const useCurrencyStore = defineStore('currency', {
 	        result[endCurrencyName] = amount;
 	         
 	        return result;
+	    },
+	    
+	    /**
+	     * Adds each currency in the second parameter to the first, modifying in place
+	     */
+	    addTo(first, second) {
+	        for (const i in this.currencies) {
+	            const cur = this.currencies[i];
+	            if (cur in second) {
+	                if (cur in first) {
+	                    first[cur] += second[cur];
+	                } else {
+	                    first[cur] = second[cur];
+	                }
+	            }
+	        }
 	    }
     }
 })

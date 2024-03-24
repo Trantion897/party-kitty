@@ -9,4 +9,4 @@ import MoneyDisplay from './MoneyDisplay.vue'
 		<h3>Party kitty</h3>
 	</section>
 </template>
-		
+
