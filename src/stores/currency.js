@@ -70,6 +70,21 @@ export const useCurrencyStore = defineStore('currency', {
 	                }
 	            }
 	        }
+	    },
+	    /**
+	     * Subtracts each currency in the second parameter from the first, modifying in place
+	     */
+	    subtractFrom(first, second) {
+	    	for (const i in this.currencies) {
+	            const cur = this.currencies[i];
+	            if (cur in second) {
+	                if (cur in first) {
+	                    first[cur] -= second[cur];
+	                } else {
+	                    first[cur] = second[cur];
+	                }
+	            }
+	        }
 	    }
     }
 })

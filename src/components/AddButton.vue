@@ -11,11 +11,11 @@ const props = defineProps({
  * Add the amount in the prop to the kitty store
  */
 const doAdd = function() {
-    kittyStore.change(props.amount);
+    kittyStore.addTransaction(props.amount);
 }
 
 </script>
 
 <template>
-    <button type="button" class="btn btn-primary" @click.once="doAdd">Add to kitty</button>
+    <button type="button" class="btn btn-primary" @click="doAdd">Add to kitty</button>
 </template>
