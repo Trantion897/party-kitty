@@ -7,7 +7,7 @@ export const useKittyStore = defineStore('kitty', () => {
     const currencyStore = useCurrencyStore();
     
     // The amount in the kitty when we started the app
-    const startAmount = ref({});
+    const startAmount = ref(currencyStore.zero());
     
     // The amount in the kitty when we last updated from the server
     const lastUpdateFromServer = ref({});
@@ -26,6 +26,11 @@ export const useKittyStore = defineStore('kitty', () => {
         }
         transactions.value.push(amount);
         currencyStore.addTo(total.value, amount);
+    };
+    
+    function deleteTransaction(index) {
+        const removed = transactions.value.splice(index, 1);
+        removed.forEach((r) => currencyStore.subtractFrom(total.value, r));
     }
     
     // function updateTotal() {
@@ -36,7 +41,8 @@ export const useKittyStore = defineStore('kitty', () => {
         startAmount,
         total,
         transactions,
-        addTransaction
+        addTransaction,
+        deleteTransaction,
     }
     
 });

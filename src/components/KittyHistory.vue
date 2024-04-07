@@ -10,10 +10,13 @@ const kittyStore = useKittyStore();
 <template>
     <h3>Kitty history</h3>
     <p>Older transactions may not be displayed</p>
-    <p>Starting balance: <money-display :amount="kittyStore.startAmount.value"></money-display></p>
+    <p>Starting balance: <money-display :amount="kittyStore.startAmount"></money-display></p>
     <ol>
-        <li v-for="transaction in kittyStore.transactions">
-            <money-display :amount="transaction"></money-display>
+        <li v-for="(transaction, index) in kittyStore.transactions">
+            <div class="input-group mb-3">
+                <money-display :amount="transaction" class="input-group-text"></money-display>
+                <button class="btn btn-outline-secondary bi bi-trash" type="button" @click="kittyStore.deleteTransaction(index)">Delete</button>
+            </div>
         </li>
     </ol>
 </template>
