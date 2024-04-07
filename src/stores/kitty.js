@@ -33,7 +33,9 @@ export const useKittyStore = defineStore('kitty', () => {
     // }
     
     return {
+        startAmount,
         total,
+        transactions,
         addTransaction
     }
     

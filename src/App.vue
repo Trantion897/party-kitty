@@ -1,6 +1,6 @@
 <script setup>
 import TheKitty from './components/TheKitty.vue'
-import AddMoney from './components/AddMoney.vue'
+import TheTabs from './components/TheTabs.vue'
 </script>
 
 <template>
@@ -13,7 +13,7 @@ import AddMoney from './components/AddMoney.vue'
   </header>
 
   <main>
-      <add-money />
+      <the-tabs />
   </main>
 </template>
 

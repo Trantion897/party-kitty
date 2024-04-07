@@ -99,7 +99,7 @@ const updateSplit = function() {
 
 <template>
 	<section>
-		<h3>Add money</h3>
+		<h3>Share money</h3>
 		<money-input-group @change="onChangeMoneyInput"></money-input-group>
 		<money-display :amount="amount"></money-display>
 		<split-control :partySize="partySize" @changePartySize="onChangePartySize" :splitRatio="splitRatio" @changeSplitRatio="onChangeSplitRatio"></split-control>
