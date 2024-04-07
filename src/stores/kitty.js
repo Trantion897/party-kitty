@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, toRaw } from 'vue';
 import { defineStore } from 'pinia';
 import { useCurrencyStore } from '@/stores/currency';
 
@@ -7,24 +7,36 @@ export const useKittyStore = defineStore('kitty', () => {
     const currencyStore = useCurrencyStore();
     
     // The amount in the kitty when we started the app
-    const startAmount = ref(currencyStore.zero());
+    const startAmount = currencyStore.zero();
     
     // The amount in the kitty when we last updated from the server
-    const lastUpdateFromServer = ref({});
+    const lastUpdateFromServer = {};
     
     // All transactions since we started
-    const transactions = ref([]);
+    const transactions = [];
     
     // The current total
     const total = ref({});
     
+    function compareTransactions(t1, t2) {
+        for (const cur of currencyStore.currencies) {
+            if (t1[cur] > t2[cur]) {
+                return 1;
+            } else if (t1[cur] < t2[cur]) {
+                return -1;
+            }
+        }
+        
+        return 0;
+    };
+    
     function addTransaction(amount) {
-        if (amount == transactions.value[transactions.value.length - 1]) {
+        if (transactions.length > 0 && compareTransactions(amount, transactions[transactions.length - 1]) == 0) {
             if (!confirm("You just added the same amount to the kitty. Add it again?")) {
                 return;
             }
         }
-        transactions.value.push(amount);
+        transactions.push(structuredClone(toRaw(amount)));
         currencyStore.addTo(total.value, amount);
     };
     

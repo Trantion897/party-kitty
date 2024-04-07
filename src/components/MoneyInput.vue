@@ -8,11 +8,7 @@ const currencyStore = useCurrencyStore();
 
 const emit = defineEmits(['change']);
     
-const inputAmount = ref({
-	GP: 0,
-	SP: 0,
-	CP: 0
-});
+const inputAmount = ref(currencyStore.zero());
 
 const changeValue = function(currency, value) {
 	inputAmount.value[currency] = value;
