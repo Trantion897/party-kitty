@@ -28,10 +28,10 @@
 	    </li>
 	</ul>
 	
-	<share-money v-if="activeTab == tabShare"></share-money>
-	<kitty-history v-else-if="activeTab == tabHistory"></kitty-history>
-	<add-money v-else-if="activeTab == tabAdd"></add-money>
-	<take-money v-else-if="activeTab == tabTake"></take-money>
+	<share-money v-show="activeTab == tabShare"></share-money>
+	<kitty-history v-show="activeTab == tabHistory"></kitty-history>
+	<add-money v-show="activeTab == tabAdd"></add-money>
+	<take-money v-show="activeTab == tabTake"></take-money>
 	
 	
 </template>

@@ -18,8 +18,10 @@ const updateAmount = function(value) {
 </script>
 
 <template>
-    <h3>Take from Kitty</h3>
-    <money-input @change="updateAmount"></money-input>
-    
-	<take-button :amount="amount"></take-button>
+    <section>
+        <h3>Take from Kitty</h3>
+        <money-input @change="updateAmount"></money-input>
+        
+	   <take-button :amount="amount"></take-button>
+    </section>
 </template>
