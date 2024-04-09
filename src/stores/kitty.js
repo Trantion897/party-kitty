@@ -32,7 +32,7 @@ export const useKittyStore = defineStore('kitty', () => {
     
     function addTransaction(amount) {
         if (transactions.length > 0 && compareTransactions(amount, transactions[transactions.length - 1]) == 0) {
-            if (!confirm("You just added the same amount to the kitty. Add it again?")) {
+            if (!confirm("You just added the same transaction to the kitty. Repeat it?")) {
                 return;
             }
         }
