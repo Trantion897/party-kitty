@@ -101,17 +101,29 @@ const updateSplit = function() {
 	<section>
 		<h3>Share money</h3>
 		<money-input-group @change="onChangeMoneyInput"></money-input-group>
-		<money-display :amount="amount"></money-display>
+		<p><strong>Total</strong> <money-display :amount="amount"></money-display></p>
 		<split-control :partySize="partySize" @changePartySize="onChangePartySize" :splitRatio="splitRatio" @changeSplitRatio="onChangeSplitRatio"></split-control>
 		
-		<dl>
-		    <dt>Each player receives</dt>
-		    <dd><money-display :amount="playerShare"></money-display></dd>
-		    <dt>Party kitty receives</dt>
-		    <dd>
-		    	<money-display :amount="partyShare"></money-display>
-		    	<add-button :amount="partyShare"></add-button>
-		    </dd>
-		</dl>
+		<p class="split-result">
+			<span class="label">Each player receives</span>
+			<money-display :amount="playerShare"></money-display>
+		</p>
+		<p class="split-result">
+		    <span class="label">Party kitty receives</span>
+		    <money-display :amount="partyShare"></money-display>
+		    <add-button :amount="partyShare"></add-button>
+		</p>
 	</section>
-</template>					
+</template>
+
+<style scoped>
+	.split-result {
+		
+	}
+	.split-result .label {
+		display:inline-block;
+		width:150px;
+		font-weight:bold;
+	}
+	
+</style>

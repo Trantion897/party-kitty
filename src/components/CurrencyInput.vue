@@ -15,7 +15,7 @@ const changeValue = function(event) {
 
 <template>
 	<div class="input-group col">
-	    <input type="number" class="form-control" aria-label="Amount in {{currency}}" :value="amount" @change="changeValue" />
+	    <input type="number" class="form-control" aria-label="Amount in {{currency}}" :value="amount" @change="changeValue" @keyup="changeValue" />
 	    <span class="input-group-text">{{currency}}</span>
 	</div>
 </template>

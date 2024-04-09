@@ -22,6 +22,7 @@ const props = defineProps({
 		list-style-type:none;
 		margin:0 10px 0px;
 		padding:0;
+		display:inline-block;
 	}
 	li {
 		display:inline-block;

@@ -15,9 +15,6 @@ const changeValue = function(currency, value) {
     emit("change", inputAmount.value);
 }
 
-onMounted(() => {
-	console.log(currencyStore);
-})
 </script>
 
 <template>
