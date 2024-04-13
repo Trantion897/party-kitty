@@ -86,4 +86,10 @@
         padding:0;
         margin:0;
     }
+    li {
+        border-bottom: 1px solid #ccc;
+    }
+    li:last-child {
+        border-bottom: none;
+    }
 </style>

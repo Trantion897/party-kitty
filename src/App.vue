@@ -17,7 +17,7 @@ import TheTabs from './components/TheTabs.vue'
   </main>
 </template>
 
-<style scoped>
+<style>
 header {
   line-height: 1.5;
 }
@@ -25,6 +25,13 @@ header {
 .logo {
   display: block;
   margin: 0 auto 2rem;
+}
+
+@media (max-width:512px) {
+  .input-group-text {
+    padding-left:.375rem;
+    padding-right:.375rem;
+  }
 }
 
 @media (min-width: 1024px) {

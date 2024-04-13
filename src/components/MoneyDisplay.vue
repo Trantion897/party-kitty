@@ -26,8 +26,8 @@ const props = defineProps({
 	}
 	li {
 		display:inline-block;
-		min-width:80px;
-		margin: 0 10px;
+		min-width:50px;
+		margin: 0 0 0 10px;
 		
 	}
 </style>
