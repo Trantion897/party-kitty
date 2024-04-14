@@ -19,14 +19,22 @@
 </script>
 
 <template>
+  <nav>
 	<ul class="nav">
-	    <li class="nav-item">
-	       <a class="nav-link" :class="{active: activeTab == tabShare}" @click.stop="setActiveTab(tabShare)" href="#">Share money</a>
-	       <a class="nav-link" :class="{active: activeTab == tabAdd}" @click.stop="setActiveTab(tabAdd)" href="#">Add to kitty</a>
-	       <a class="nav-link" :class="{active: activeTab == tabTake}" @click.stop="setActiveTab(tabTake)" href="#">Take from kitty</a>
-	       <a class="nav-link" :class="{active: activeTab == tabHistory}" @click.stop="setActiveTab(tabHistory)" href="#">View history</a>
+	    <li class="nav-item" :class="{active: activeTab == tabShare}">
+	       <a class="bi bi-share" @click.stop="setActiveTab(tabShare)" href="#">Share money</a>
+	    </li>
+	    <li class="nav-item" :class="{active: activeTab == tabAdd}">
+	       <a class="bi bi-plus-circle" @click.stop="setActiveTab(tabAdd)" href="#">Add to kitty</a>
+	    </li>   
+	    <li class="nav-item" :class="{active: activeTab == tabTake}">
+	       <a class="bi bi-dash-circle" @click.stop="setActiveTab(tabTake)" href="#">Take from kitty</a>
+	    </li>
+	    <li class="nav-item" :class="{active: activeTab == tabHistory}">
+	       <a class="bi bi-clock-history" @click.stop="setActiveTab(tabHistory)" href="#">View history</a>
 	    </li>
 	</ul>
+  </nav>
 	
 	<share-money v-show="activeTab == tabShare"></share-money>
 	<kitty-history v-show="activeTab == tabHistory"></kitty-history>
@@ -36,4 +44,51 @@
 	
 </template>
 
+<style scoped>
+  nav {
+    border-bottom: 1px solid #ccc;
+  }
+  nav ul {
+    list-style-type: none;
+	display:inline-block;
+    margin-bottom:-1px;
+    padding: 0 6px;
+  }
+  
+  nav ul li {
+    border: 1px solid #ccc;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom:none;
+    display:inline-block;
+    margin: 0px;
+  }
+  nav ul li.active {
+    position:relative;
+  }
+  nav ul li.active::after {
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:-1px;
+    height:3px;
+    content:" ";
+    display:block;
+    background-color:#fff;
+  }
+  nav ul li a {
+    display:inline-block;
+    padding: 5px;
+  }
+  nav ul li a.bi::before {
+    padding-right:5px;
+  }
+  nav ul li.active a{
+    padding-top:10px;
+  }
+  nav ul li a:hover,
+  nav ul li a:active {
+    padding-top: 10px;
+  }
+</style>
 
