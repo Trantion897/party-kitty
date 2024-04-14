@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 export const useCurrencyStore = defineStore('currency', {
 	state: () => {
 		return {
+			name: "dnd5e",
 			currencies: ['GP', 'SP', 'CP'],
 			conversionRates: [10, 10]
 			

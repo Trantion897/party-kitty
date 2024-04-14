@@ -9,14 +9,18 @@ export const useKittyStore = defineStore('kitty', () => {
     // The amount in the kitty when we started the app
     const startAmount = currencyStore.zero();
     
-    // The amount in the kitty when we last updated from the server
-    const lastUpdateFromServer = {};
+    // The timestamp of the last server update, as reported by the server
+    const lastUpdateTimestamp = ref({});
     
     // All transactions since we started
     const transactions = [];
     
     // The current total
     const total = ref({});
+    
+    const serversideName = ref(null);
+    
+    const serverUrl = "https://localhost/kitty_api.php";
     
     function compareTransactions(t1, t2) {
         for (const cur of currencyStore.currencies) {
@@ -38,11 +42,48 @@ export const useKittyStore = defineStore('kitty', () => {
         }
         transactions.push(structuredClone(toRaw(amount)));
         currencyStore.addTo(total.value, amount);
+        
+        // TODO: Set a timeout to prevent excessive saving?
+        save();
     };
     
     function deleteTransaction(index) {
         const removed = transactions.value.splice(index, 1);
         removed.forEach((r) => currencyStore.subtractFrom(total.value, r));
+        
+        // TODO: Set a timeout to prevent excessive saving?
+        save();
+    };
+    
+    async function save() {
+        const saveData = {
+            currency: currencyStore.name,
+            amount: total.value,
+            partySize: 0,
+            splitRatio: 0,
+            config: {},
+        };
+        
+        if (serversideName.value != null) {
+            saveData.name = serversideName.value;
+        }
+        fetch(serverUrl, {
+            body: JSON.stringify(saveData),
+            method: "PUT",
+        }).then((response) => {
+            if (!response.ok) {
+                console.log(response);
+            }
+            return response.json();
+        }).then((result) => {
+            serversideName.value = result.name;
+            lastUpdateTimestamp.value = result.last_update;
+            // TODO: Handle the user updating while waiting for the server's response
+            // TODO: Maybe store the value we expected before sending the request, and compare that.
+            // TODO: And/or the server could use a response code to indicate if it's been changed
+            total.value = JSON.parse(result.amount);
+        
+        })
     }
     
     // function updateTotal() {
@@ -55,6 +96,7 @@ export const useKittyStore = defineStore('kitty', () => {
         transactions,
         addTransaction,
         deleteTransaction,
+        serversideName
     }
     
 });

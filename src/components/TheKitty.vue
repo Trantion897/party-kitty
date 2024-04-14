@@ -10,7 +10,7 @@ const currencyStore = useCurrencyStore();
 
 <template>
 	<section>
-		<h3>Party kitty</h3>
+		<h3>Party kitty - {{kittyStore.serversideName}}</h3>
 		<money-display :amount="kittyStore.total"></money-display>
 	</section>
 </template>
