@@ -81,9 +81,23 @@ export const useKittyStore = defineStore('kitty', () => {
             // TODO: Handle the user updating while waiting for the server's response
             // TODO: Maybe store the value we expected before sending the request, and compare that.
             // TODO: And/or the server could use a response code to indicate if it's been changed
-            total.value = JSON.parse(result.amount);
+            total.value = result.amount;
         
-        })
+        });
+    }
+    
+    async function load(kittyName) {
+        fetch(serverUrl + "?name="+kittyName).then((response) => {
+            if (!response.ok) {
+                console.log(response);
+            }
+            return response.json();
+        }).then((result) => {
+            serversideName.value = result.name;
+            lastUpdateTimestamp.value = result.last_update;
+            total.value = result.amount;
+            // TODO: Update party size, split ratio & other config
+        });
     }
     
     // function updateTotal() {
@@ -96,7 +110,8 @@ export const useKittyStore = defineStore('kitty', () => {
         transactions,
         addTransaction,
         deleteTransaction,
-        serversideName
+        serversideName,
+        load
     }
     
 });

@@ -1,6 +1,16 @@
 <script setup>
+import {onBeforeMount} from 'vue';
+import { useKittyStore } from '@/stores/kitty.js';
+
 import TheKitty from './components/TheKitty.vue'
 import TheTabs from './components/TheTabs.vue'
+
+const kittyStore = useKittyStore();
+
+onBeforeMount(() => {
+    const kittyName = document.location.pathname.substring(document.location.pathname.lastIndexOf("/")+1);
+    kittyStore.load(kittyName);
+})
 </script>
 
 <template>
