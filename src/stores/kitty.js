@@ -95,7 +95,11 @@ export const useKittyStore = defineStore('kitty', () => {
     }
     
     async function load(kittyName) {
-        fetch(serverUrl + "?name="+kittyName).then((response) => {
+        // Parse any whitespace or separator characters to hyphens
+        const parsedName = kittyName.split(/[^A-z]/).join("-");
+        // TODO: Handle invalid names
+        
+        fetch(serverUrl + "?name="+parsedName).then((response) => {
             if (!response.ok) {
                 console.log(response);
             }
