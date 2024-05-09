@@ -112,6 +112,13 @@ export const useKittyStore = defineStore('kitty', () => {
         });
     }
     
+    function clear() {
+        lastUpdateTimestamp.value = {};
+        transactions.length = 0;
+        total.value = startAmount;
+        serversideName.value = null;
+    }
+    
     // function updateTotal() {
         
     // }
@@ -123,7 +130,8 @@ export const useKittyStore = defineStore('kitty', () => {
         addTransaction,
         deleteTransaction,
         serversideName,
-        load
+        load,
+        clear
     }
     
 });
