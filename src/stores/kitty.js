@@ -20,7 +20,7 @@ export const useKittyStore = defineStore('kitty', () => {
     
     const serversideName = ref(null);
     
-    const serverUrl = "https://localhost/kitty_api.php";
+    const serverUrl = "http://localhost/kitty_api.php";
     
     function compareTransactions(t1, t2) {
         for (const cur of currencyStore.currencies) {
@@ -76,13 +76,21 @@ export const useKittyStore = defineStore('kitty', () => {
             }
             return response.json();
         }).then((result) => {
-            serversideName.value = result.name;
+            if (serversideName.value == null) {
+                const newSave = true;
+            } else {
+                const newSave = false;
+            }
+            serversideName.value = result.name;     
             lastUpdateTimestamp.value = result.last_update;
             // TODO: Handle the user updating while waiting for the server's response
             // TODO: Maybe store the value we expected before sending the request, and compare that.
             // TODO: And/or the server could use a response code to indicate if it's been changed
             total.value = result.amount;
-        
+            
+            if (newSave) {
+                document.location.search = "name=" + serversideName.value;
+            }
         });
     }
     

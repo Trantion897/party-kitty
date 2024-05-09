@@ -5,11 +5,14 @@ import { useKittyStore } from '@/stores/kitty.js';
 import TheKitty from './components/TheKitty.vue'
 import TheTabs from './components/TheTabs.vue'
 
-const kittyStore = useKittyStore();
+const kittyStore = useKittyStore(); 
 
 onBeforeMount(() => {
-    const kittyName = document.location.pathname.substring(document.location.pathname.lastIndexOf("/")+1);
-    kittyStore.load(kittyName);
+    const params = new URLSearchParams(document.location.search);
+    if (params.has("name")) {
+      const kittyName = params.get("name");
+      kittyStore.load(kittyName);
+    }
 })
 </script>
 
