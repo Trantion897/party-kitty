@@ -121,6 +121,8 @@ export const useKittyStore = defineStore('kitty', () => {
             serversideName.value = result.name;
             lastUpdateTimestamp.value = result.last_update;
             total.value = result.amount;
+            partySize.value = result.partySize;
+            splitRatio.value = result.splitRatio;
             // TODO: Update party size, split ratio & other config
         });
     }
@@ -130,8 +132,8 @@ export const useKittyStore = defineStore('kitty', () => {
         transactions.length = 0;
         total.value = startAmount;
         serversideName.value = null;
-        splitRatio = null;
-        partySize = null;
+        splitRatio.value = null;
+        partySize.value = null;
         
     }
     
@@ -142,6 +144,8 @@ export const useKittyStore = defineStore('kitty', () => {
     return {
         startAmount,
         total,
+        partySize,
+        splitRatio,
         transactions,
         addTransaction,
         setPartySize,

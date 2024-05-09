@@ -16,11 +16,23 @@ const amount = ref({
 	SP: 0,
 	CP: 0
 });
+// TODO: Move to settings file and apply when creating new kitty
 const partySize = ref(1);
 const splitRatio = ref(33); 
 
 const playerShare = ref("...");
 const partyShare = ref("...");
+
+kittyStore.$subscribe((mutation, state) => {
+	// Set the party size & split ratio from the store
+	if (state.partySize != null) {
+		partySize.value = state.partySize;
+	}
+	
+	if (state.splitRatio != null) {
+		splitRatio.value = state.splitRatio;
+	}
+})
 
 const onChangePartySize = function(newSize) {
 	newSize = parseInt(newSize);
