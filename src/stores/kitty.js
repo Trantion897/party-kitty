@@ -18,6 +18,12 @@ export const useKittyStore = defineStore('kitty', () => {
     // The current total
     const total = ref({});
     
+    // Number of members in the party
+    const partySize = ref(1);
+    
+    // Split ratio used in last split
+    const splitRatio = ref(0);
+    
     const serversideName = ref(null);
     
     const serverUrl = "http://localhost/kitty_api.php";
@@ -33,6 +39,14 @@ export const useKittyStore = defineStore('kitty', () => {
         
         return 0;
     };
+    
+    function setPartySize(size) {
+        partySize.value = size;
+    }
+    
+    function setSplitRatio(ratio) {
+        splitRatio.value = ratio;
+    }
     
     function addTransaction(amount) {
         if (transactions.length > 0 && compareTransactions(amount, transactions[transactions.length - 1]) == 0) {
@@ -59,8 +73,8 @@ export const useKittyStore = defineStore('kitty', () => {
         const saveData = {
             currency: currencyStore.name,
             amount: total.value,
-            partySize: 0,
-            splitRatio: 0,
+            partySize: partySize.value,
+            splitRatio: splitRatio.value,
             config: {},
         };
         
@@ -76,10 +90,9 @@ export const useKittyStore = defineStore('kitty', () => {
             }
             return response.json();
         }).then((result) => {
+            let newSave = false;
             if (serversideName.value == null) {
-                const newSave = true;
-            } else {
-                const newSave = false;
+                newSave = true;
             }
             serversideName.value = result.name;     
             lastUpdateTimestamp.value = result.last_update;
@@ -117,6 +130,9 @@ export const useKittyStore = defineStore('kitty', () => {
         transactions.length = 0;
         total.value = startAmount;
         serversideName.value = null;
+        splitRatio = null;
+        partySize = null;
+        
     }
     
     // function updateTotal() {
@@ -128,6 +144,8 @@ export const useKittyStore = defineStore('kitty', () => {
         total,
         transactions,
         addTransaction,
+        setPartySize,
+        setSplitRatio,
         deleteTransaction,
         serversideName,
         load,

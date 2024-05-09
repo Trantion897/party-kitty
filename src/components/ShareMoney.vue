@@ -9,6 +9,7 @@ import SplitControl from './SplitControl.vue'
 import AddButton from './AddButton.vue'
 
 const currencyStore = useCurrencyStore();
+const kittyStore = useKittyStore()
 
 const amount = ref({
 	GP: 0,
@@ -22,12 +23,16 @@ const playerShare = ref("...");
 const partyShare = ref("...");
 
 const onChangePartySize = function(newSize) {
-    partySize.value = parseInt(newSize);
+	newSize = parseInt(newSize);
+	kittyStore.setPartySize(newSize);
+    partySize.value = newSize;
     updateSplit();
 }
 
 const onChangeSplitRatio = function(newRatio) {
-    splitRatio.value = parseInt(newRatio);
+	newRatio = parseInt(newRatio);
+	kittyStore.setSplitRatio(newRatio);
+    splitRatio.value = newRatio;
     updateSplit();
 }
 
