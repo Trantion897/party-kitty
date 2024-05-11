@@ -24,7 +24,6 @@ const loadKitty = function() {
         return;
     }
     kittyStore.load(inputBoxName.value);
-    // TODO: Use router to change URL without reload
 };
 
 const labelText = computed(() => {
@@ -46,6 +45,10 @@ const newKitty = function() {
     kittyStore.clear();
 }
 
+const errorMessage = computed(() => {
+    return kittyStore.error;
+});
+
 </script>
 
 <template>
@@ -64,4 +67,10 @@ const newKitty = function() {
             </button>
         </div>
     </form>
+    <div v-if="errorMessage" class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ errorMessage.title }}</h5>
+            <p class="card-text" v-html="errorMessage.text"></p>
+        </div>
+    </div>  
 </template>

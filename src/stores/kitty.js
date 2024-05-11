@@ -28,6 +28,8 @@ export const useKittyStore = defineStore('kitty', () => {
     
     const serverUrl = "http://localhost/kitty_api.php";
     
+    const error = ref(null);
+    
     function compareTransactions(t1, t2) {
         for (const cur of currencyStore.currencies) {
             if (t1[cur] > t2[cur]) {
@@ -70,6 +72,8 @@ export const useKittyStore = defineStore('kitty', () => {
     };
     
     async function save() {
+        clearError();
+        
         const saveData = {
             currency: currencyStore.name,
             amount: total.value,
@@ -108,13 +112,20 @@ export const useKittyStore = defineStore('kitty', () => {
     }
     
     async function load(kittyName) {
+        clearError();
+        
         // Parse any whitespace or separator characters to hyphens
         const parsedName = kittyName.split(/[^A-z]/).join("-");
         // TODO: Handle invalid names
         
         fetch(serverUrl + "?name="+parsedName).then((response) => {
             if (!response.ok) {
-                console.log(response);
+                switch (response.status) {
+                    case 404:
+                        throw new errorNotFound(parsedName);
+                    default:
+                        throw new errorUnknown();
+                }
             }
             return response.json();
         }).then((result) => {
@@ -124,7 +135,34 @@ export const useKittyStore = defineStore('kitty', () => {
             partySize.value = result.partySize;
             splitRatio.value = result.splitRatio;
             // TODO: Update party size, split ratio & other config
+        }).catch((err) => {
+            error.value = err;
         });
+    }
+    
+    function clearError() {
+        error.value = null;
+    }
+    
+    function errorNotFound(name) {
+        return {
+            type: "error",
+            title: "Kitty not found",
+            text: "No kitty was found with the name <code>" + name + "</code>. Please check and try again."
+        };
+    }
+    
+    function errorUnknown(msg) {
+        let text = "An unknown error occurred.";
+        
+        if (msg) {
+            text += "<br><code>"+msg+"</code>";
+        }
+        return  {
+            type: "error",
+            title: "Unknown error",
+            text: text
+        }
     }
     
     function clear() {
@@ -153,7 +191,8 @@ export const useKittyStore = defineStore('kitty', () => {
         deleteTransaction,
         serversideName,
         load,
-        clear
+        clear,
+        error
     }
     
 });
