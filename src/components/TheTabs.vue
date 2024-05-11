@@ -22,16 +22,16 @@
   <nav>
 	<ul class="nav">
 	    <li class="nav-item" :class="{active: activeTab == tabShare}">
-	       <a class="bi bi-share" @click.stop="setActiveTab(tabShare)" href="#">Share money</a>
+	       <a class="bi bi-share" @click.stop="setActiveTab(tabShare)" href="#">Split</a>
 	    </li>
 	    <li class="nav-item" :class="{active: activeTab == tabAdd}">
-	       <a class="bi bi-plus-circle" @click.stop="setActiveTab(tabAdd)" href="#">Add to kitty</a>
+	       <a class="bi bi-plus-circle" @click.stop="setActiveTab(tabAdd)" href="#">Add</a>
 	    </li>   
 	    <li class="nav-item" :class="{active: activeTab == tabTake}">
-	       <a class="bi bi-dash-circle" @click.stop="setActiveTab(tabTake)" href="#">Take from kitty</a>
+	       <a class="bi bi-dash-circle" @click.stop="setActiveTab(tabTake)" href="#">Take</a>
 	    </li>
 	    <li class="nav-item" :class="{active: activeTab == tabHistory}">
-	       <a class="bi bi-clock-history" @click.stop="setActiveTab(tabHistory)" href="#">View history</a>
+	       <a class="bi bi-clock-history" @click.stop="setActiveTab(tabHistory)" href="#">History</a>
 	    </li>
 	</ul>
   </nav>
