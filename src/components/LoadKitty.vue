@@ -57,13 +57,13 @@ const errorMessage = computed(() => {
             <span class="input-group-text">{{ labelText }}</span>
             <input type="text" class="form-control" aria-label="Load existing kitty" v-model="inputBoxName">
             <button class="btn btn-outline-primary" type="submit" title="Load existing kitty">
-                <span class="bi bi-cloud-download">&nbsp;Load</span>
+                <span class="bi bi-cloud-download"><span>&nbsp;Load</span></span>
             </button>
             <button class="btn btn-outline-primary" v-if="activeName" @click="copyToClipboard" title="Copy URL to clipboard">
-                <span class="bi bi-clipboard">&nbsp;Copy</span> 
+                <span class="bi bi-clipboard"><span>&nbsp;Copy</span></span> 
             </button>
             <button class="btn btn-outline-primary" v-if="activeName" @click="newKitty" title="Start new kitty">
-                <span class="bi bi-file-earmark">&nbsp;New</span>
+                <span class="bi bi-file-earmark"><span>&nbsp;New</span></span>
             </button>
         </div>
     </form>
@@ -74,3 +74,11 @@ const errorMessage = computed(() => {
         </div>
     </div>  
 </template>
+
+<style scoped>
+    @media (max-width:30rem) {
+        .btn .bi span {
+            display:none;
+        }
+    }
+</style>
