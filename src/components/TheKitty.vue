@@ -1,6 +1,7 @@
 <script setup>
 import MoneyDisplay from './MoneyDisplay.vue';
 import LoadKitty from './LoadKitty.vue';
+import RefreshButton from './RefreshButton.vue';
 import { useKittyStore } from '@/stores/kitty.js';
 import { useCurrencyStore } from '@/stores/currency.js';
 
@@ -13,6 +14,7 @@ const currencyStore = useCurrencyStore();
 	<section>
 		<h3>Party kitty</h3>
 		<money-display :amount="kittyStore.total"></money-display>
+		<refresh-button></refresh-button>
 		<load-kitty></load-kitty>
 	</section>
 </template>

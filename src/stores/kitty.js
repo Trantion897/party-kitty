@@ -140,6 +140,14 @@ export const useKittyStore = defineStore('kitty', () => {
         });
     }
     
+    function refresh() {
+        if (!serversideName.value) {
+            throw new Exception ("No server-side connection"); // TODO
+        }
+        
+        load(serversideName.value);
+    }
+    
     function handleServerUpdate(result) {
         if (!currencyStore.isEqual(result.amount, total.value)) {
             // Amount on the server changed between updates
@@ -212,7 +220,8 @@ export const useKittyStore = defineStore('kitty', () => {
         serversideName,
         load,
         clear,
-        error
+        error,
+        refresh,
     }
     
 });

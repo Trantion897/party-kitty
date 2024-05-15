@@ -11,7 +11,7 @@ const props = defineProps({
 
 <template>
 	<ol>
-		<li v-for="currency in currencyStore.currencies" class="input-group-text">
+		<li v-for="currency in currencyStore.currencies">
 			<currency-display :currency="currency" :amount="amount[currency]"></currency-display>
 		</li>
 	</ol>
