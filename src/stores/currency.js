@@ -90,7 +90,7 @@ export const useCurrencyStore = defineStore('currency', {
 	    
 	    zero() {
 	    	const z = {}
-	    	for (const i of this.currencies) {
+	    	for (const i in this.currencies) {
 	    		z[this.currencies[i]] = 0;
 	    	}
 	    	return z;
