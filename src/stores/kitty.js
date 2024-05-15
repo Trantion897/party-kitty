@@ -7,10 +7,13 @@ export const useKittyStore = defineStore('kitty', () => {
     const currencyStore = useCurrencyStore();
     
     // The amount in the kitty when we started the app
-    const startAmount = currencyStore.zero();
+    const startAmount = ref({});
     
     // The timestamp of the last server update, as reported by the server
     const lastUpdateTimestamp = ref({});
+    
+    // The amount in the kitty the last time we synchronised with the server
+    const lastUpdateAmount = ref({});
     
     // All transactions since we started
     const transactions = [];
@@ -80,14 +83,20 @@ export const useKittyStore = defineStore('kitty', () => {
             partySize: partySize.value,
             splitRatio: splitRatio.value,
             config: {},
+            lastUpdate: lastUpdateTimestamp.value,
+            lastUpdateAmount: lastUpdateAmount.value,
         };
         
+        let method;
         if (serversideName.value != null) {
             saveData.name = serversideName.value;
+            method = "POST";
+        } else {
+            method = "PUT"
         }
         fetch(serverUrl, {
             body: JSON.stringify(saveData),
-            method: "PUT",
+            method: method,
         }).then((response) => {
             if (!response.ok) {
                 console.log(response);
@@ -98,12 +107,8 @@ export const useKittyStore = defineStore('kitty', () => {
             if (serversideName.value == null) {
                 newSave = true;
             }
-            serversideName.value = result.name;     
-            lastUpdateTimestamp.value = result.last_update;
-            // TODO: Handle the user updating while waiting for the server's response
-            // TODO: Maybe store the value we expected before sending the request, and compare that.
-            // TODO: And/or the server could use a response code to indicate if it's been changed
-            total.value = result.amount;
+            
+            handleServerUpdate(result);
             
             if (newSave) {
                 document.location.search = "name=" + serversideName.value;
@@ -129,15 +134,22 @@ export const useKittyStore = defineStore('kitty', () => {
             }
             return response.json();
         }).then((result) => {
-            serversideName.value = result.name;
-            lastUpdateTimestamp.value = result.last_update;
-            total.value = result.amount;
-            partySize.value = result.partySize;
-            splitRatio.value = result.splitRatio;
-            // TODO: Update party size, split ratio & other config
+            handleServerUpdate(result);
         }).catch((err) => {
             error.value = err;
         });
+    }
+    
+    function handleServerUpdate(result) {
+        serversideName.value = result.name;
+        lastUpdateTimestamp.value = result.lastUpdate;
+        // Need to make separate deep copies of the amount
+        startAmount.value = JSON.parse(JSON.stringify(result.amount));
+        total.value = JSON.parse(JSON.stringify(result.amount));
+        lastUpdateAmount.value = JSON.parse(JSON.stringify(result.amount));
+        partySize.value = result.partySize;
+        splitRatio.value = result.splitRatio;
+        // TODO: Update party size, split ratio & other config
     }
     
     function clearError() {
@@ -182,6 +194,8 @@ export const useKittyStore = defineStore('kitty', () => {
     return {
         startAmount,
         total,
+        lastUpdateTimestamp,
+        lastUpdateAmount,
         partySize,
         splitRatio,
         transactions,

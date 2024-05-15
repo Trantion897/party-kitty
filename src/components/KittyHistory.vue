@@ -10,7 +10,7 @@ const kittyStore = useKittyStore();
 <template>
     <section>
         <h3>Kitty history</h3>
-        <p>Older transactions may not be displayed</p>
+        <p>Transaction history starts from when you loaded the kitty in this session.</p>
         <p>Starting balance: <money-display :amount="kittyStore.startAmount"></money-display></p>
         <ol>
             <li v-for="(transaction, index) in kittyStore.transactions">
