@@ -10,7 +10,7 @@ export const useKittyStore = defineStore('kitty', () => {
     const startAmount = ref({});
     
     // The timestamp of the last server update, as reported by the server
-    const lastUpdateTimestamp = ref({});
+    const lastUpdateTimestamp = ref(null);
     
     // The amount in the kitty the last time we synchronised with the server
     const lastUpdateAmount = ref({});
@@ -82,10 +82,13 @@ export const useKittyStore = defineStore('kitty', () => {
             amount: total.value,
             partySize: partySize.value,
             splitRatio: splitRatio.value,
-            config: {},
-            lastUpdate: lastUpdateTimestamp.value,
-            lastUpdateAmount: lastUpdateAmount.value,
+            config: {}
         };
+        
+        if (lastUpdateTimestamp.value != null) {
+            saveData['lastUpdate'] = lastUpdateTimestamp.value.toISOString();
+            saveData['lastUpdateAmount'] = lastUpdateAmount.value;
+        }
         
         let method;
         if (serversideName.value != null) {
@@ -123,9 +126,20 @@ export const useKittyStore = defineStore('kitty', () => {
         const parsedName = kittyName.split(/[^A-z]/).join("-");
         // TODO: Handle invalid names
         
-        fetch(serverUrl + "?name="+parsedName).then((response) => {
+        const headers = new Headers();
+        if (lastUpdateTimestamp.value) {
+            headers.append("If-Modified-Since", lastUpdateTimestamp.value.toUTCString());
+        }
+        
+        fetch(serverUrl + "?name="+parsedName, {
+            headers: headers,
+            method: "GET",
+        }).then((response) => {
             if (!response.ok) {
                 switch (response.status) {
+                    case 304:
+                        // TODO - Don't parse the nonexistent JSON, but don't display an error
+                        return;
                     case 404:
                         throw new errorNotFound(parsedName);
                     default:
@@ -156,7 +170,8 @@ export const useKittyStore = defineStore('kitty', () => {
             transactions.push(diff);
         }
         serversideName.value = result.name;
-        lastUpdateTimestamp.value = result.lastUpdate;
+        lastUpdateTimestamp.value = new Date();
+        lastUpdateTimestamp.value.setTime(Date.parse(result.lastUpdate));
         // Need to make separate deep copies of the amount
         startAmount.value = JSON.parse(JSON.stringify(result.amount));
         total.value = JSON.parse(JSON.stringify(result.amount));
@@ -192,7 +207,7 @@ export const useKittyStore = defineStore('kitty', () => {
     }
     
     function clear() {
-        lastUpdateTimestamp.value = {};
+        lastUpdateTimestamp.value = null;
         transactions.length = 0;
         total.value = startAmount;
         serversideName.value = null;
