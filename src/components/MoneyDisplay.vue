@@ -11,10 +11,11 @@ const props = defineProps({
 
 <template>
 	<ol>
-		<li v-for="currency in currencyStore.currencies">
+		<li v-for="currency in currencyStore.currencies" class="input-group-text">
 			<currency-display :currency="currency" :amount="amount[currency]"></currency-display>
 		</li>
 	</ol>
+	<span v-if="amount.note" class="note input-group-text">{{ amount.note }}</span>
 </template>
 
 <style scoped>

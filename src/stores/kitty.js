@@ -141,6 +141,12 @@ export const useKittyStore = defineStore('kitty', () => {
     }
     
     function handleServerUpdate(result) {
+        if (!currencyStore.isEqual(result.amount, total.value)) {
+            // Amount on the server changed between updates
+            const diff = currencyStore.makeDiff(total.value, result.amount);
+            diff.note = "Update from server";
+            transactions.push(diff);
+        }
         serversideName.value = result.name;
         lastUpdateTimestamp.value = result.lastUpdate;
         // Need to make separate deep copies of the amount

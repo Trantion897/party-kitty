@@ -90,10 +90,27 @@ export const useCurrencyStore = defineStore('currency', {
 	    
 	    zero() {
 	    	const z = {}
-	    	for (const i in this.currencies) {
+	    	for (const i of this.currencies) {
 	    		z[this.currencies[i]] = 0;
 	    	}
 	    	return z;
+	    },
+	    
+	    isEqual(a, b) {
+	    	for (const i of this.currencies) {
+	    		if (a[i] != b[i]) {
+	    			return false;
+	    		}
+	    	}
+	    	return true;
+	    },
+	    
+	    makeDiff(before, after) {
+	    	const diff = {};
+	    	for (const i of this.currencies) {
+	    		diff[i] = after[i] - before[i];
+	    	}
+	    	return diff;
 	    }
     }
 })
