@@ -35,7 +35,7 @@
     }
     
     const changePartySize = function(change) {
-        let newSize = props.partySize += change;
+        let newSize = props.partySize + change;
         if (newSize < 1) {
             newSize = 1;
         }

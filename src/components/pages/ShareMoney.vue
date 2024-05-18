@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useKittyStore } from '@/stores/kitty';
 import { useCurrencyStore } from '@/stores/currency';
 
@@ -16,35 +16,27 @@ const amount = ref({
 	SP: 0,
 	CP: 0
 });
-// TODO: Move to settings file and apply when creating new kitty
-const partySize = ref(1);
-const splitRatio = ref(33); 
+
+const partySize = computed(() => {
+	return kittyStore.partySize;
+});
+
+const splitRatio = computed(() => {
+	return kittyStore.splitRatio;
+});
 
 const playerShare = ref("...");
 const partyShare = ref("...");
 
-kittyStore.$subscribe((mutation, state) => {
-	// Set the party size & split ratio from the store
-	if (state.partySize != null) {
-		partySize.value = state.partySize;
-	}
-	
-	if (state.splitRatio != null) {
-		splitRatio.value = state.splitRatio;
-	}
-})
-
 const onChangePartySize = function(newSize) {
 	newSize = parseInt(newSize);
 	kittyStore.setPartySize(newSize);
-    partySize.value = newSize;
     updateSplit();
 }
 
 const onChangeSplitRatio = function(newRatio) {
 	newRatio = parseInt(newRatio);
 	kittyStore.setSplitRatio(newRatio);
-    splitRatio.value = newRatio;
     updateSplit();
 }
 

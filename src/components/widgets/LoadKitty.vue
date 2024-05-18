@@ -42,7 +42,7 @@ const copyToClipboard = function() {
 const newKitty = function() {
     inputBoxName.value = "";
     activeName.value = "";
-    kittyStore.clear();
+    kittyStore.init();
 }
 
 const errorMessage = computed(() => {

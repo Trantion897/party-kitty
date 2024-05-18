@@ -4,6 +4,11 @@ import { useCurrencyStore } from '@/stores/currency';
 
 
 export const useKittyStore = defineStore('kitty', () => {
+    const defaultConfig = {
+        partySize: 1,
+        splitRatio: 33
+    };
+    
     const currencyStore = useCurrencyStore();
     
     // The amount in the kitty when we started the app
@@ -22,10 +27,10 @@ export const useKittyStore = defineStore('kitty', () => {
     const total = ref({});
     
     // Number of members in the party
-    const partySize = ref(1);
+    const partySize = ref(null);
     
     // Split ratio used in last split
-    const splitRatio = ref(0);
+    const splitRatio = ref(null);
     
     const serversideName = ref(null);
     
@@ -206,19 +211,20 @@ export const useKittyStore = defineStore('kitty', () => {
         }
     }
     
-    function clear() {
+    function init() {
         lastUpdateTimestamp.value = null;
         transactions.length = 0;
         total.value = startAmount;
         serversideName.value = null;
-        splitRatio.value = null;
-        partySize.value = null;
-        
+        splitRatio.value = defaultConfig.splitRatio;
+        partySize.value = defaultConfig.partySize;
     }
     
     // function updateTotal() {
         
     // }
+    
+    init();
     
     return {
         startAmount,
@@ -234,7 +240,7 @@ export const useKittyStore = defineStore('kitty', () => {
         deleteTransaction,
         serversideName,
         load,
-        clear,
+        init,
         error,
         refresh,
     }
