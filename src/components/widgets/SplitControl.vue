@@ -61,16 +61,26 @@
                     <button class="btn btn-outline-secondary" type="button" id="party-minus-button" @click="changePartySize(1)">+</button>
                 </div>
 		    </div>
-		    <div class="col-auto">
-		        <input type="range" class="form-range" :value="splitRatio" min="0" max="99" @input="changeSplitRatio" list="splitMarkers"></input>
+		    <div class="col-auto split-ratio">
+		        <span>{{splitRatioDescription}}</span>
+		        <input type="range" :value="splitRatio" min="0" max="99" @input="changeSplitRatio" list="splitMarkers"></input>
 		        <datalist id="splitMarkers">
 		            <option value="0"></option>
 		            <option value="33"></option>
 		            <option value="66"></option>
 		            <option value="99"></option>
 		        </datalist>
-		        <span>{{splitRatioDescription}}</span>
 		    </div>
         </div>
 	</section>
 </template>
+
+<style scoped>
+    .split-ratio span {
+        width:100%;
+        display:inline-block;
+    }
+    .split-ratio input {
+        width:396px; /* 99 * 4. 100% isn't fixed */
+    }
+</style>
