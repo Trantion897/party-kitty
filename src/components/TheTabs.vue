@@ -1,10 +1,10 @@
 <script setup>
     import { ref } from 'vue';
     
-    import ShareMoney from './ShareMoney.vue';
-    import KittyHistory from './KittyHistory.vue';
-    import AddMoney from './AddMoney.vue';
-    import TakeMoney from './TakeMoney.vue';
+    import ShareMoney from '@/components/pages/ShareMoney.vue';
+    import KittyHistory from '@/components/pages/KittyHistory.vue';
+    import AddMoney from '@/components/pages/AddMoney.vue';
+    import TakeMoney from '@/components/pages/TakeMoney.vue';
     
     const tabShare = "share";
     const tabAdd = "add";

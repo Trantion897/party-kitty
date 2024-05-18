@@ -3,10 +3,10 @@ import { ref, watch } from 'vue';
 import { useKittyStore } from '@/stores/kitty';
 import { useCurrencyStore } from '@/stores/currency';
 
-import MoneyInputGroup from './MoneyInputGroup.vue'
-import MoneyDisplay from './MoneyDisplay.vue'
-import SplitControl from './SplitControl.vue'
-import AddButton from './AddButton.vue'
+import MoneyInputGroup from '@/components/widgets/currencyHandlers/MoneyInputGroup.vue'
+import MoneyDisplay from '@/components/widgets/currencyHandlers/MoneyDisplay.vue'
+import SplitControl from '@/components/widgets/SplitControl.vue'
+import AddButton from '@/components/widgets/AddButton.vue'
 
 const currencyStore = useCurrencyStore();
 const kittyStore = useKittyStore()

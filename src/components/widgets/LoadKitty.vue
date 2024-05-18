@@ -60,7 +60,7 @@ const errorMessage = computed(() => {
                 <span class="bi bi-cloud-download"><span>&nbsp;Load</span></span>
             </button>
             <button class="btn btn-outline-primary" v-if="activeName" @click="copyToClipboard" title="Copy URL to clipboard">
-                <span class="bi bi-clipboard"><span>&nbsp;Copy</span></span> 
+                <span class="bi bi-clipboard"><span>&nbsp;Copy</span></span>
             </button>
             <button class="btn btn-outline-primary" v-if="activeName" @click="newKitty" title="Start new kitty">
                 <span class="bi bi-file-earmark"><span>&nbsp;New</span></span>

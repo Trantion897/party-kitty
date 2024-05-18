@@ -3,8 +3,8 @@ import { ref } from 'vue';
 import { useKittyStore } from '@/stores/kitty.js';
 import { useCurrencyStore } from '@/stores/currency.js';
 
-import MoneyInput from './MoneyInput.vue';
-import TakeButton from './TakeButton.vue';
+import MoneyInput from '@/components/widgets/currencyHandlers/MoneyInput.vue';
+import TakeButton from '@/components/widgets/TakeButton.vue';
 
 const kittyStore = useKittyStore();
 const currencyStore = useCurrencyStore();

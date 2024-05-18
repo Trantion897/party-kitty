@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useCurrencyStore } from '@/stores/currency.js';
 
-import CurrencyInput from './CurrencyInput.vue'
+import CurrencyInput from '@/components/widgets/currencyHandlers/CurrencyInput.vue'
 
 const currencyStore = useCurrencyStore();
 

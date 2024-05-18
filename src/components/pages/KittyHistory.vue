@@ -1,7 +1,7 @@
 <script setup>
 import { useKittyStore } from '@/stores/kitty.js';
 
-import MoneyDisplay from './MoneyDisplay.vue'
+import MoneyDisplay from '@/components/widgets/currencyHandlers/MoneyDisplay.vue'
 
 const kittyStore = useKittyStore();
 
