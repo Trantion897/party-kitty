@@ -5,7 +5,7 @@ import { useCurrencyStore } from '@/stores/currency';
 
 export const useKittyStore = defineStore('kitty', () => {
     const defaultConfig = {
-        partySize: 1,
+        partySize: 4,
         splitRatio: 33
     };
     

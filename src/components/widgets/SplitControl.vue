@@ -55,7 +55,7 @@
         <div class="row gy-2">
             <div class="col-auto">
 		        <div class="input-group mb-3">
-                    <span class="input-group-text">Party size</span>
+                    <span class="input-group-text">Characters in party</span>
                     <button class="btn btn-outline-secondary" type="button" id="party-minus-button" @click="changePartySize(-1)">-</button>
                     <input type="text" class="form-control" aria-label="Number of characters in party" :value="partySize" @input="setPartySize($event)" @keyup.up="changePartySize(1)" @keyup.down="changePartySize(-1)"/>
                     <button class="btn btn-outline-secondary" type="button" id="party-minus-button" @click="changePartySize(1)">+</button>
