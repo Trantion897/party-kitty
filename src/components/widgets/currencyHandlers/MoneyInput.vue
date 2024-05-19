@@ -19,7 +19,7 @@ const changeValue = function(currency, value) {
 
 <template>
 	<div class="money-input">
-		<div class="currency" v-for="currency in currencyStore.currencies">
+		<div class="currency" v-for="currency in currencyStore.enabledCurrencies">
 	    	<currency-input :currency="currency" :amount="inputAmount[currency]" @change="changeValue"></currency-input>
 		</div>
 	</div>

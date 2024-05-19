@@ -5,8 +5,35 @@ export const useCurrencyStore = defineStore('currency', {
 		return {
 			name: "dnd5e",
 			currencies: ['GP', 'SP', 'CP'],
-			conversionRates: [10, 10]
+			conversionRates: [10, 10],
+			specialCurrencies: [
+				{
+					'name': 'PP',
+					'convertsTo': 'GP',
+					'conversionRate': 10,
+					'enableConversion': 'ask',
+					'enableGeneration': 'no',
+				},
+				{
+					'name': 'EP',
+					'convertsTo': 'SP',
+					'conversionRate': 5,
+					'enableConversion': 'ask',
+					'enableGeneration': 'no',	
+				}
+			],
+			enabledSpecialCurrencies: []
 			
+		}
+	},
+	
+	getters: {
+		enabledCurrencies: (state) => {
+			return state.currencies.concat(state.enabledSpecialCurrencies);
+		},
+		
+		allCurrencies: (state) => {
+			return state.currencies.concat(state.specialCurrencies.map((x) => x.name));
 		}
 	},
 	
@@ -90,8 +117,8 @@ export const useCurrencyStore = defineStore('currency', {
 	    
 	    zero() {
 	    	const z = {}
-	    	for (const i in this.currencies) {
-	    		z[this.currencies[i]] = 0;
+	    	for (const i in this.allCurrencies) {
+	    		z[this.allCurrencies[i]] = 0;
 	    	}
 	    	return z;
 	    },
@@ -111,6 +138,27 @@ export const useCurrencyStore = defineStore('currency', {
 	    		diff[i] = after[i] - before[i];
 	    	}
 	    	return diff;
+	    },
+	    
+	    enableCurrency(name) {
+	    	if (this.enabledSpecialCurrencies.indexOf(name) === -1 && this.specialCurrencies.some(x => x.name == name)) {
+	    		this.enabledSpecialCurrencies.push(name);
+	    	}
+	    },
+	    
+	    disableCurrency(name) {
+	    	const idx = this.enabledSpecialCurrencies.indexOf(name);
+	    	if (idx !== -1) {
+	    		this.enabledSpecialCurrencies.splice(idx, 1);
+	    	}
+	    },
+	    
+	    toggleCurrency(name) {
+	    	if (this.enabledSpecialCurrencies.indexOf(name) !== -1) {
+	    		this.disableCurrency(name);
+	    	} else {
+	    		this.enableCurrency(name);
+	    	}
 	    }
     }
-})
+});

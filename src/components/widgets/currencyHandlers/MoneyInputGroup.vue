@@ -73,7 +73,23 @@
 </script>
 
 <template>
-    <ul>
+    <ul class='settings'>
+        <li v-for="currency in currencyStore.specialCurrencies">
+            <label>
+                <input type="checkbox" value="1" :name="`enable_${currency.name}`" :value="currencyStore.this.enabledSpecialCurrencies.indexOf(currencies.name) !== -1" @click="currencyStore.toggleCurrency(currency.name)">
+                Enable {{currency.name}}
+            </label>
+            <label v-if="currency.enableConversion == 'ask'" :title="`Enable converting ${currency.name} into other currencies automatically`">
+                <input type="checkbox" value="1" :name="`convertFrom_${currency.name}`">
+                Convert to {{currency.convertsTo}}
+            </label>
+            <label v-if="currency.enableGeneration == 'ask'" :title="`Enable converting other currencies into ${currency.name} automatically`">
+                <input type="checkbox" value="1" :name="`convertTo_${currency.name}`">
+                Convert others to {{currency.name}}
+            </label>
+        </li>
+    </ul>
+    <ul class='inputs'>
         <li v-for="amount, index in inputAmounts" :key="amount.key">
             <money-input :amount="amount" @change="onChangeMoneyInput(index, $event)" @focusout="onBlur(index)"></money-input>
         </li>
@@ -86,10 +102,20 @@
         padding:0;
         margin:0;
     }
-    li {
+    .settings li {
+        border: 1px solid #ccc;
+        border-radius:3px;
+        margin: 2px 0;
+        padding: 0 2px;
+    }
+    .settings label {
+        display:inline-block;
+        margin:3px;
+    }
+    .inputs li {
         border-bottom: 1px solid #ccc;
     }
-    li:last-child {
+    .inputs li:last-child {
         border-bottom: none;
     }
 </style>
