@@ -214,7 +214,7 @@ export const useKittyStore = defineStore('kitty', () => {
     function init() {
         lastUpdateTimestamp.value = null;
         transactions.length = 0;
-        total.value = startAmount;
+        total.value = startAmount.value;
         serversideName.value = null;
         splitRatio.value = defaultConfig.splitRatio;
         partySize.value = defaultConfig.partySize;
