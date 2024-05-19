@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { useKittyStore } from '@/stores/kitty.js';
 import { useCurrencyStore } from '@/stores/currency.js';
 
-import MoneyInput from '@/components/widgets/currencyHandlers/MoneyInput.vue';
+import MoneyInputGroup from '@/components/widgets/currencyHandlers/MoneyInputGroup.vue';
 import TakeButton from '@/components/widgets/TakeButton.vue';
 
 const kittyStore = useKittyStore();
@@ -20,7 +20,7 @@ const updateAmount = function(value) {
 <template>
     <section>
         <h3>Take from Kitty</h3>
-        <money-input @change="updateAmount"></money-input>
+        <money-input-group @change="updateAmount"></money-input-group>
         
 	   <take-button :amount="amount"></take-button>
     </section>
