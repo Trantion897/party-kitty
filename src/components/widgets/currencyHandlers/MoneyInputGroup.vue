@@ -87,17 +87,41 @@
 <template>
     <ul class='settings'>
         <li v-for="currency in currencyStore.specialCurrencies">
-            <!-- TODO: Set v-model on checkboxes so they can't get out of sync on reloads -->
             <label>
-                <input type="checkbox" value="1" :name="`enable_${currency.name}`" :value="currencyStore.this.enabledSpecialCurrencies.indexOf(currencies.name) !== -1" @change="toggleCurrency(currency.name)">
+                <input 
+                    type="checkbox" 
+                    value="1" 
+                    :name="`enable_${currency.name}`"
+                    :checked="currencyStore.enabledSpecialCurrencies.includes(currency.name)"
+                    :value="currencyStore.this.enabledSpecialCurrencies.indexOf(currencies.name) !== -1"
+                    @change="toggleCurrency(currency.name)"
+                >
                 Enable {{currency.name}}
             </label>
-            <label v-if="currency.enableConversion == 'ask'" :title="`Enable converting ${currency.name} into other currencies automatically`" @change="toggleConversion(currency.name, currency.convertsTo)">
-                <input type="checkbox" value="1" :name="`convertFrom_${currency.name}`">
+            <label
+                v-if="currency.enableConversion == 'ask'"
+                :title="`Enable converting ${currency.name} into other currencies automatically`"
+            >
+                <input
+                    type="checkbox"
+                    value="1"
+                    :name="`convertFrom_${currency.name}`"
+                    :checked="currencyStore.isConversionEnabled(currency.name, currency.convertsTo)"
+                    @change="toggleConversion(currency.name, currency.convertsTo)"
+                >
                 Convert to {{currency.convertsTo}}
             </label>
-            <label v-if="currency.enableGeneration == 'ask'" :title="`Enable converting other currencies into ${currency.name} automatically`" @change="toggleConversion(currency.convertsTo, currency.name)">
-                <input type="checkbox" value="1" :name="`convertTo_${currency.name}`">
+            <label
+                v-if="currency.enableGeneration == 'ask'"
+                :title="`Enable converting other currencies into ${currency.name} automatically`"
+            >
+                <input
+                    type="checkbox"
+                    value="1"
+                    :name="`convertTo_${currency.name}`"
+                    :checked="currencyStore.isConversionEnabled(currency.convertsTo, currency.name)"
+                    @change="toggleConversion(currency.convertsTo, currency.name)"
+                >
                 Convert others to {{currency.name}}
             </label>
         </li>
