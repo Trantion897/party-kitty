@@ -29,20 +29,12 @@ export const useCurrencyStore = defineStore('currency', {
 	
 	getters: {
 		enabledCurrencies: (state) => {
-			const sortedCurrencies = [];
-			state.currencies.forEach((stdCurrency) => {
-				// Get any special currencies that go before this standard currency
-				const specialCurrenciesHere = state.specialCurrencies.filter((sc) => state.enabledSpecialCurrencies.includes(sc.name) && sc.convertsTo == stdCurrency);
-				if (specialCurrenciesHere && specialCurrenciesHere.length > 0) {
-					specialCurrenciesHere.forEach((sc) => sortedCurrencies.push(sc.name));
-				}
-				sortedCurrencies.push(stdCurrency);
-			});
+			const sortedCurrencies = state.combinedCurrencies((sc) => state.enabledSpecialCurrencies.includes(sc.name));
 			return sortedCurrencies;
 		},
 		
 		allCurrencies: (state) => {
-			return state.currencies.concat(state.specialCurrencies.map((x) => x.name));
+			return state.combinedCurrencies(x => true);
 		}
 	},
 	
@@ -215,6 +207,28 @@ export const useCurrencyStore = defineStore('currency', {
 	    
 	    isConversionEnabled(from, to) {
 	    	return (this.enabledConversions.some((ec) => ec[0] == from && ec[1] == to));
+	    },
+	    
+	    usedCurrencies(amount) {
+	    	return this.combinedCurrencies((sc) => Object.hasOwn(amount, sc.name) && amount[sc.name] != 0);
+	    },
+	    
+	    /**
+	     * Combines normal and special currencies, in order, 
+	     * filtering the special currencies according to the callback method defined in filterCallback.
+	     * filterCallback must take a single parameter, which is the special currency as defined in specialCurrencies.
+	     */
+	    combinedCurrencies(filterCallback) {
+	    	const sortedCurrencies = [];
+			this.currencies.forEach((stdCurrency) => {
+				// Get any special currencies that go before this standard currency
+				const specialCurrenciesHere = this.specialCurrencies.filter((sc) => sc.convertsTo == stdCurrency && filterCallback(sc));
+				if (specialCurrenciesHere && specialCurrenciesHere.length > 0) {
+					specialCurrenciesHere.forEach((sc) => sortedCurrencies.push(sc.name));
+				}
+				sortedCurrencies.push(stdCurrency);
+			});
+			return sortedCurrencies;
 	    }
     
     }

@@ -1,4 +1,6 @@
 <script setup>
+import { computed } from 'vue';
+
 import CurrencyDisplay from './CurrencyDisplay.vue'
 import { useCurrencyStore } from '@/stores/currency';
 
@@ -7,12 +9,19 @@ const currencyStore = useCurrencyStore();
 const props = defineProps({
 	amount: Object
 });
+
+const usedCurrencies = computed(() => {
+	console.log(props.amount);
+	const r = currencyStore.usedCurrencies(props.amount);
+	console.log(r);
+	return r;
+})
 </script>
 
 <template>
 	<ol>
-		<!-- If we already have PP or EP in the bank, we should always show it. Maybe a usedCurrencies method -->
-		<li v-for="currency in currencyStore.enabledCurrencies">
+		<!-- If we already have PP or EP in the bank, we should always show it. Maybe a usedCurrencies method in kitty.js -->
+		<li v-for="currency in usedCurrencies">
 			<currency-display :currency="currency" :amount="amount[currency]"></currency-display>
 		</li>
 	</ol>
