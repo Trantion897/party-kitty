@@ -11,10 +11,7 @@ const props = defineProps({
 });
 
 const usedCurrencies = computed(() => {
-	console.log(props.amount);
-	const r = currencyStore.usedCurrencies(props.amount);
-	console.log(r);
-	return r;
+	return currencyStore.usedCurrencies(props.amount);
 })
 </script>
 
