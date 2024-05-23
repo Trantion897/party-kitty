@@ -16,7 +16,7 @@ const doTake = function(amount) {
     // Turn this into a negative amount
     const negative = {};
     
-    for (const cur of currencyStore.currencies) {
+    for (const cur of currencyStore.enabledCurrencies) {
         negative[cur] = amount[cur] * -1;
     }
     
