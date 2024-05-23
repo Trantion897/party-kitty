@@ -43,7 +43,7 @@
     const onChangeMoneyInput = function(index, input) {
         
         inputAmounts.value[index] = {...inputAmounts.value[index], ...input};
-        const currencies = currencyStore.currencies;
+        const currencies = currencyStore.enabledCurrencies;
         
         totalAmount.value = Object.fromEntries(currencies.map(cur => [cur, 0]));
         
@@ -70,20 +70,33 @@
             inputAmounts.value.splice(index, 1);
         }
     }
+    
+    const toggleCurrency = function(name){
+        currencyStore.toggleCurrency(name);
+        // Recalculate converted currency
+        emit('change', totalAmount.value);
+    }
+    
+    const toggleConversion = function(from, to) {
+        currencyStore.toggleConversion(from, to);
+        // Recalculate converted currency
+        emit('change', totalAmount.value);
+    }
 </script>
 
 <template>
     <ul class='settings'>
         <li v-for="currency in currencyStore.specialCurrencies">
+            <!-- TODO: Set v-model on checkboxes so they can't get out of sync on reloads -->
             <label>
-                <input type="checkbox" value="1" :name="`enable_${currency.name}`" :value="currencyStore.this.enabledSpecialCurrencies.indexOf(currencies.name) !== -1" @click="currencyStore.toggleCurrency(currency.name)">
+                <input type="checkbox" value="1" :name="`enable_${currency.name}`" :value="currencyStore.this.enabledSpecialCurrencies.indexOf(currencies.name) !== -1" @change="toggleCurrency(currency.name)">
                 Enable {{currency.name}}
             </label>
-            <label v-if="currency.enableConversion == 'ask'" :title="`Enable converting ${currency.name} into other currencies automatically`">
+            <label v-if="currency.enableConversion == 'ask'" :title="`Enable converting ${currency.name} into other currencies automatically`" @change="toggleConversion(currency.name, currency.convertsTo)">
                 <input type="checkbox" value="1" :name="`convertFrom_${currency.name}`">
                 Convert to {{currency.convertsTo}}
             </label>
-            <label v-if="currency.enableGeneration == 'ask'" :title="`Enable converting other currencies into ${currency.name} automatically`">
+            <label v-if="currency.enableGeneration == 'ask'" :title="`Enable converting other currencies into ${currency.name} automatically`" @change="toggleConversion(currency.convertsTo, currency.name)">
                 <input type="checkbox" value="1" :name="`convertTo_${currency.name}`">
                 Convert others to {{currency.name}}
             </label>
@@ -104,9 +117,10 @@
     }
     .settings li {
         border: 1px solid #ccc;
-        border-radius:3px;
-        margin: 2px 0;
+        border-radius:5px;
+        margin: 2px 5px;
         padding: 0 2px;
+        display:inline-block;
     }
     .settings label {
         display:inline-block;

@@ -11,7 +11,8 @@ const props = defineProps({
 
 <template>
 	<ol>
-		<li v-for="currency in currencyStore.currencies">
+		<!-- If we already have PP or EP in the bank, we should always show it. Maybe a usedCurrencies method -->
+		<li v-for="currency in currencyStore.enabledCurrencies">
 			<currency-display :currency="currency" :amount="amount[currency]"></currency-display>
 		</li>
 	</ol>
