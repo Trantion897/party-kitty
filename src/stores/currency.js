@@ -150,8 +150,9 @@ export const useCurrencyStore = defineStore('currency', {
 	    },
 	    
 	    isEqual(a, b) {
-	    	for (const i of this.currencies) {
-	    		if (a[i] != b[i]) {
+	    	for (const i of this.allCurrencies) {
+	    		// Different if the currency exists on both sides, and it's different
+	    		if (a[i] && b[i] && a[i] != b[i]) {
 	    			return false;
 	    		}
 	    	}
