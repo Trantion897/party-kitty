@@ -114,7 +114,17 @@ export const useKittyStore = defineStore('kitty', () => {
             method: method,
         }).then((response) => {
             if (!response.ok) {
-                console.log(response);
+                switch (response.status) {
+                    case 304:
+                        // TODO - Don't parse the nonexistent JSON, but don't display an error
+                        return;
+                    case 404:
+                        throw new errorNotFound(parsedName);
+                    case 429:
+                        throw new errorRateLimit();
+                    default:
+                        throw new errorUnknown();
+                }
             }
             return response.json();
         }).then((result) => {
@@ -128,6 +138,8 @@ export const useKittyStore = defineStore('kitty', () => {
             if (newSave) {
                 document.location.search = "name=" + serversideName.value;
             }
+        }).catch((err) => {
+            error.value = err;
         });
     }
     
@@ -154,6 +166,9 @@ export const useKittyStore = defineStore('kitty', () => {
                         return;
                     case 404:
                         throw new errorNotFound(parsedName);
+                    case 429:
+                        // TODO: Get the number of seconds
+                        throw new errorRateLimit();
                     default:
                         throw new errorUnknown();
                 }
@@ -206,6 +221,14 @@ export const useKittyStore = defineStore('kitty', () => {
             type: "error",
             title: "Kitty not found",
             text: "No kitty was found with the name <code>" + name + "</code>. Please check and try again."
+        };
+    }
+    
+    function errorRateLimit(retryDelay) {
+        return {
+            type: "error",
+            title: "Rate limited",
+            text: "You've hit the rate limit. Please try again in a few minutes."
         };
     }
     
