@@ -15,9 +15,9 @@ const kittyStore = useKittyStore();
         <ol>
             <li v-for="(transaction, index) in kittyStore.transactions">
                 <div class="input-group mb-3">
-                    <!-- TODO: Move the button to a slot inside MoneyDisplay so that component can handle all styling -->
-                    <money-display :amount="transaction"></money-display>
-                    <button class="btn btn-outline-secondary bi bi-trash" type="button" @click="kittyStore.deleteTransaction(index)">Delete</button>
+                    <money-display :amount="transaction">
+                        <button class="btn btn-outline-secondary bi bi-trash" type="button" @click="kittyStore.deleteTransaction(index)">Delete</button>
+                    </money-display>
                 </div>
             </li>
         </ol>
