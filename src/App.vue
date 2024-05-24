@@ -38,7 +38,7 @@ header {
   margin: 0 auto 2rem;
 }
 
-@media (max-width:512px) {
+@media (max-width:40rem) {
   .input-group-text {
     padding-left:.375rem;
     padding-right:.375rem;

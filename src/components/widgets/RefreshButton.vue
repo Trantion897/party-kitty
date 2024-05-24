@@ -12,7 +12,7 @@
 </template>
 
 <style scoped>
-    @media (max-width:30rem) {
+    @media (max-width:40rem) {
         .btn span {
             display:none;
         }

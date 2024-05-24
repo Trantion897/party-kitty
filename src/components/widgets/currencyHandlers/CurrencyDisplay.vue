@@ -16,7 +16,7 @@ const displayAmount = computed(() => {
 </script>
 
 <template>
-	<span class="bi bi-circle-fill">&nbsp;{{ displayAmount }}</span> <span>{{ currency }}</span>
+	<span class="bi bi-circle-fill">&nbsp;{{ displayAmount }}</span> <span class='currency'>{{ currency }}</span>
 </template>
 
 <style scoped>
@@ -35,5 +35,11 @@ const displayAmount = computed(() => {
 	}
 	ol li.currency-CP span.bi::before {
 		color:#b57b66;
+	}
+	
+	@media (max-width:30rem) {
+		ol li span.currency {
+			display:none;
+		}
 	}
 </style>

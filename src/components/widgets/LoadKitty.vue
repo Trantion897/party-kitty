@@ -76,7 +76,7 @@ const errorMessage = computed(() => {
 </template>
 
 <style scoped>
-    @media (max-width:30rem) {
+    @media (max-width:40rem) {
         .btn .bi span {
             display:none;
         }
