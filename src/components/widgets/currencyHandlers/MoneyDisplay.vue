@@ -17,6 +17,7 @@ const usedCurrencies = computed(() => {
 
 <template>
 	<div class="input-group mb-3">
+		<slot name="prefix"></slot>
 		<ol>
 			<!-- If we already have PP or EP in the bank, we should always show it. Maybe a usedCurrencies method in kitty.js -->
 			<li v-for="currency in usedCurrencies" class="input-group-text" :class="`currency-${currency}`">

@@ -11,7 +11,13 @@ const kittyStore = useKittyStore();
     <section>
         <h3>Kitty history</h3>
         <p>Transaction history starts from when you loaded the kitty in this session.</p>
-        <p>Starting balance: <money-display :amount="kittyStore.startAmount"></money-display></p>
+        
+            <money-display :amount="kittyStore.startAmount">
+                <template #prefix>
+                    <span class="input-group-text">Starting balance</span>
+                </template>
+            </money-display>
+        
         <ol>
             <li v-for="(transaction, index) in kittyStore.transactions">
                 <div class="input-group mb-3">
@@ -21,10 +27,20 @@ const kittyStore = useKittyStore();
                 </div>
             </li>
         </ol>
+        <p>
+            <money-display :amount="kittyStore.total">
+                <template #prefix>
+                    <span class="input-group-text">Current balance</span>
+                </template>
+            </money-display>
+        </p>
     </section>
 </template>
 
 <style scoped>
+    ol {
+        margin-bottom:0.8em;
+    }
     ol li .mb-3 {
         margin-bottom:0.3em !important;
     }
