@@ -16,7 +16,7 @@ const kittyStore = useKittyStore();
             <li v-for="(transaction, index) in kittyStore.transactions">
                 <div class="input-group mb-3">
                     <money-display :amount="transaction">
-                        <button class="btn btn-outline-secondary bi bi-trash" type="button" @click="kittyStore.deleteTransaction(index)">Delete</button>
+                        <button class="btn btn-outline-secondary bi bi-arrow-counterclockwise" type="button" @click="kittyStore.revertTransaction(index)">Revert</button>
                     </money-display>
                 </div>
             </li>

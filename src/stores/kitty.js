@@ -71,9 +71,16 @@ export const useKittyStore = defineStore('kitty', () => {
         save();
     };
     
-    function deleteTransaction(index) {
-        const removed = transactions.value.splice(index, 1);
-        removed.forEach((r) => currencyStore.subtractFrom(total.value, r));
+    function revertTransaction(index) {
+        const toRevert = transactions[index];
+        const revert = currencyStore.zero();
+        currencyStore.allCurrencies.forEach((i) => {
+            if (Object.hasOwn(toRevert, i)) {
+                revert[i] = toRevert[i]*-1
+            }
+        });
+        revert.note = "Revert previous transaction";
+        addTransaction(revert);
         
         // TODO: Set a timeout to prevent excessive saving?
         save();
@@ -237,7 +244,7 @@ export const useKittyStore = defineStore('kitty', () => {
         addTransaction,
         setPartySize,
         setSplitRatio,
-        deleteTransaction,
+        revertTransaction,
         serversideName,
         load,
         init,
