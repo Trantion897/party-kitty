@@ -5,11 +5,13 @@
     import KittyHistory from '@/components/pages/KittyHistory.vue';
     import AddMoney from '@/components/pages/AddMoney.vue';
     import TakeMoney from '@/components/pages/TakeMoney.vue';
+    import Help from '@/components/pages/Help.vue';
     
     const tabShare = "share";
     const tabAdd = "add";
     const tabTake = "take";
     const tabHistory = "history";
+    const tabHelp = "help";
     
     const activeTab = ref(tabShare);
     
@@ -33,6 +35,9 @@
 	    <li class="nav-item" :class="{active: activeTab == tabHistory}">
 	       <a class="bi bi-clock-history" @click.stop="setActiveTab(tabHistory)" href="#">History</a>
 	    </li>
+	    <li class="nav-item" :class="{active: activeTab == tabHelp}">
+	       <a class="bi bi-question-circle" @click.stop="setActiveTab(tabHelp)" href="#">Help</a>
+	    </li>
 	</ul>
   </nav>
 	
@@ -40,6 +45,7 @@
 	<kitty-history v-show="activeTab == tabHistory"></kitty-history>
 	<add-money v-show="activeTab == tabAdd"></add-money>
 	<take-money v-show="activeTab == tabTake"></take-money>
+	<help v-show="activeTab == tabHelp"></help>
 	
 	
 </template>
