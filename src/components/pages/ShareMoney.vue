@@ -35,9 +35,7 @@ const onChangePartySize = function(newSize) {
 }
 
 const onChangeSplitRatio = function(newRatio) {
-	console.log("Before: "+newRatio);
 	newRatio = parseInt(newRatio);
-	console.log("After: "+newRatio);
 	kittyStore.setSplitRatio(newRatio);
     updateSplit();
 }

@@ -188,8 +188,12 @@ export const useKittyStore = defineStore('kitty', () => {
         startAmount.value = JSON.parse(JSON.stringify(result.amount));
         total.value = JSON.parse(JSON.stringify(result.amount));
         lastUpdateAmount.value = JSON.parse(JSON.stringify(result.amount));
-        partySize.value = result.partySize;
-        splitRatio.value = result.splitRatio;
+        if (result.partySize) {
+            partySize.value = result.partySize;
+        }
+        if (result.splitRatio) {
+            splitRatio.value = result.splitRatio;
+        }
         // TODO: Update party size, split ratio & other config
     }
     

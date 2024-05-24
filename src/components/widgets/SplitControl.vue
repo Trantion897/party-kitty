@@ -26,7 +26,6 @@
     
     const setPartySize = function(event) {
         let newSize = event.target.value;
-        console.log(newSize)
         if (newSize <= 0) {
             newSize = 1;
         }
