@@ -13,8 +13,9 @@ const currencyStore = useCurrencyStore();
 <template>
 	<section>
 		<h3>Party kitty</h3>
-		<money-display :amount="kittyStore.total"></money-display>
-		<refresh-button></refresh-button>
+		<money-display :amount="kittyStore.total">
+			<refresh-button></refresh-button>
+		</money-display>
 		<load-kitty></load-kitty>
 	</section>
 </template>

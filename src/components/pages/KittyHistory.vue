@@ -23,3 +23,9 @@ const kittyStore = useKittyStore();
         </ol>
     </section>
 </template>
+
+<style scoped>
+    ol li .mb-3 {
+        margin-bottom:0.3em !important;
+    }
+</style>

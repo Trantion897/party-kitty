@@ -8,5 +8,13 @@
 </script>
 
 <template>
-	<button type="button" class="refresh btn btn-primary bi bi-arrow-clockwise" @click="refresh">&nbsp;Refresh</button>
+	<button type="button" class="refresh btn btn-outline-primary bi bi-arrow-clockwise" @click="refresh"><span>&nbsp;Refresh</span></button>
 </template>
+
+<style scoped>
+    @media (max-width:30rem) {
+        .btn span {
+            display:none;
+        }
+    }
+</style>
