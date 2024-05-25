@@ -1,19 +1,18 @@
 <script setup>
-import {onBeforeMount} from 'vue';
+import {watch} from 'vue';
 import { useKittyStore } from '@/stores/kitty.js';
+import { useRoute } from 'vue-router';
 
 import TheKitty from './components/TheKitty.vue'
 import TheTabs from './components/TheTabs.vue'
 
 const kittyStore = useKittyStore(); 
+const route = useRoute();
 
-onBeforeMount(() => {
-    const params = new URLSearchParams(document.location.search);
-    if (params.has("name")) {
-      const kittyName = params.get("name");
-      kittyStore.load(kittyName);
-    }
-})
+watch(() => route.params.name, (newName, oldName) => {
+  kittyStore.init();
+  kittyStore.load(newName);
+});
 </script>
 
 <template>
