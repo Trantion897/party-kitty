@@ -30,7 +30,7 @@
     const isEmpty = function(amount) {
         let isEmpty = true;
         
-        for (const cur of currencyStore.currencies) {
+        for (const cur of currencyStore.allCurrencies) {
             if (cur in amount && amount[cur] != 0) {
                 isEmpty = false;
                 break;

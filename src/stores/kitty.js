@@ -39,7 +39,7 @@ export const useKittyStore = defineStore('kitty', () => {
     const error = ref(null);
     
     function compareTransactions(t1, t2) {
-        for (const cur of currencyStore.currencies) {
+        for (const cur of currencyStore.allCurrencies) {
             if (t1[cur] > t2[cur]) {
                 return 1;
             } else if (t1[cur] < t2[cur]) {
