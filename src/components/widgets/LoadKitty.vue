@@ -1,9 +1,11 @@
 <script setup>
 import { ref, computed } from 'vue';
-
+import { useRoute, useRouter } from 'vue-router';
 import { useKittyStore } from '@/stores/kitty';
 
 const kittyStore = useKittyStore();
+const router = useRouter();
+const route = useRoute();
 
 kittyStore.$subscribe((mutation, state) => {  
     updateNameFromStore(state.serversideName);
@@ -19,12 +21,25 @@ const updateNameFromStore = function(serversideName) {
 const activeName = ref();
 const inputBoxName = ref();
 
+/**
+ * Trigger loading a new kitty from the server, but stay on the same page
+ */
 const loadKitty = function() {
     if (inputBoxName == activeName || inputBoxName == '') {
         return;
     }
-    kittyStore.load(inputBoxName.value);
+    
+    router.push({params: {name: inputBoxName.value}});
 };
+
+/**
+ * Copy a URL for the current kitty to the clipboard
+ */
+const copyToClipboard = function() {
+    const target = router.resolve("share");
+    navigator.clipboard.writeText(document.location.origin +"/"+ target.href);
+    console.log("Copied to clipboard"); // TODO: Visual notice  
+}
 
 const labelText = computed(() => {
     if (activeName.value) {
@@ -34,15 +49,11 @@ const labelText = computed(() => {
     }
 });
 
-const copyToClipboard = function() {
-    navigator.clipboard.writeText(document.location.href.split('?')[0] + "?name="+inputBoxName.value);
-    console.log("Copied to clipboard"); // TODO: Visual notice  
-}
-
 const newKitty = function() {
     inputBoxName.value = "";
     activeName.value = "";
-    kittyStore.init();
+    router.push({params: {name: ""}});
+    kittyStore.clear();
 }
 
 const errorMessage = computed(() => {

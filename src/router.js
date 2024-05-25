@@ -9,11 +9,11 @@ import KittyHistory from '@/components/pages/KittyHistory.vue'
 import Help from '@/components/pages/Help.vue'
 
 const routes = [
-  { path: '/:name?/share', component: ShareMoney },
-  { path: '/:name?/add', component: AddMoney },
-  { path: '/:name?/take', component: TakeMoney },
-  { path: '/:name?/history', component: KittyHistory },
-  { path: '/:name?/help', component: Help },
+  { name: 'share',   path: '/:name?/share',   component: ShareMoney },
+  { name: 'add',     path: '/:name?/add',     component: AddMoney },
+  { name: 'take',    path: '/:name?/take',    component: TakeMoney },
+  { name: 'history', path: '/:name?/history', component: KittyHistory },
+  { name: 'help',    path: '/:name?/help',    component: Help },
 ]
 
 const router = createRouter({

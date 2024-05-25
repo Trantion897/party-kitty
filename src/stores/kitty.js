@@ -245,6 +245,11 @@ export const useKittyStore = defineStore('kitty', () => {
         }
     }
     
+    function clear() {
+        startAmount.value = currencyStore.zero();
+        init();
+    }
+    
     function init() {
         lastUpdateTimestamp.value = null;
         transactions.length = 0;
@@ -275,6 +280,7 @@ export const useKittyStore = defineStore('kitty', () => {
         serversideName,
         load,
         init,
+        clear,
         error,
         refresh,
     }

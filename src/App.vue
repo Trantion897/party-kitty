@@ -11,7 +11,11 @@ const route = useRoute();
 
 watch(() => route.params.name, (newName, oldName) => {
   kittyStore.init();
-  kittyStore.load(newName);
+  if (newName != "") {
+    kittyStore.load(newName);
+  } else {
+    kittyStore.clear();
+  }
 });
 </script>
 

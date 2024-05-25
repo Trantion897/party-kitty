@@ -5,11 +5,6 @@
     const router = useRouter();
     const route = useRoute();
     
-    const activeTab = computed(() => {
-      const path = route.path.split("/");
-      return path[path.length-1];
-    });
-    
     const tabShare = "share";
     const tabAdd = "add";
     const tabTake = "take";
@@ -20,20 +15,20 @@
 <template>
   <nav>
 	<ul class="nav">
-	    <li class="nav-item" :class="{active: activeTab == tabShare}">
-	       <RouterLink to="/share" class="bi bi-share">Split</RouterLink>
+	    <li class="nav-item" :class="{active: route.name == tabShare}">
+	       <RouterLink to="share" class="bi bi-share">Split</RouterLink>
 	    </li>
-	    <li class="nav-item" :class="{active: activeTab == tabAdd}">
-	       <RouterLink to="/add" class="bi bi-plus-circle">Add</RouterLink>
+	    <li class="nav-item" :class="{active: route.name == tabAdd}">
+	       <RouterLink to="add" class="bi bi-plus-circle">Add</RouterLink>
 	    </li>   
-	    <li class="nav-item" :class="{active: activeTab == tabTake}">
-	       <RouterLink to="/take" class="bi bi-dash-circle">Take</RouterLink>
+	    <li class="nav-item" :class="{active: route.name == tabTake}">
+	       <RouterLink to="take" class="bi bi-dash-circle">Take</RouterLink>
 	    </li>
-	    <li class="nav-item" :class="{active: activeTab == tabHistory}">
-	       <RouterLink to="/history" class="bi bi-clock-history">History</RouterLink>
+	    <li class="nav-item" :class="{active: route.name == tabHistory}">
+	       <RouterLink to="history" class="bi bi-clock-history">History</RouterLink>
 	    </li>
-	    <li class="nav-item" :class="{active: activeTab == tabHelp}">
-	       <RouterLink to="/help" class="bi bi-question-circle">Help</RouterLink>
+	    <li class="nav-item" :class="{active: route.name == tabHelp}">
+	       <RouterLink to="help" class="bi bi-question-circle">Help</RouterLink>
 	    </li>
 	</ul>
   </nav>
