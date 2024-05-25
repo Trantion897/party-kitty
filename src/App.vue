@@ -22,9 +22,9 @@ onBeforeMount(() => {
       <TheKitty />
     </div>
   </header>
-
+  <the-tabs />
   <main>
-      <the-tabs />
+    <RouterView />
   </main>
 </template>
 

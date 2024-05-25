@@ -1,53 +1,42 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref, computed } from 'vue';
+    import { useRoute, useRouter } from 'vue-router';
     
-    import ShareMoney from '@/components/pages/ShareMoney.vue';
-    import KittyHistory from '@/components/pages/KittyHistory.vue';
-    import AddMoney from '@/components/pages/AddMoney.vue';
-    import TakeMoney from '@/components/pages/TakeMoney.vue';
-    import Help from '@/components/pages/Help.vue';
+    const router = useRouter();
+    const route = useRoute();
+    
+    const activeTab = computed(() => {
+      const path = route.path.split("/");
+      return path[path.length-1];
+    });
     
     const tabShare = "share";
     const tabAdd = "add";
     const tabTake = "take";
     const tabHistory = "history";
     const tabHelp = "help";
-    
-    const activeTab = ref(tabShare);
-    
-    const setActiveTab = function(newTab) {
-        activeTab.value = newTab;
-    }
 </script>
 
 <template>
   <nav>
 	<ul class="nav">
 	    <li class="nav-item" :class="{active: activeTab == tabShare}">
-	       <a class="bi bi-share" @click.stop="setActiveTab(tabShare)" href="#">Split</a>
+	       <RouterLink to="/share" class="bi bi-share">Split</RouterLink>
 	    </li>
 	    <li class="nav-item" :class="{active: activeTab == tabAdd}">
-	       <a class="bi bi-plus-circle" @click.stop="setActiveTab(tabAdd)" href="#">Add</a>
+	       <RouterLink to="/add" class="bi bi-plus-circle">Add</RouterLink>
 	    </li>   
 	    <li class="nav-item" :class="{active: activeTab == tabTake}">
-	       <a class="bi bi-dash-circle" @click.stop="setActiveTab(tabTake)" href="#">Take</a>
+	       <RouterLink to="/take" class="bi bi-dash-circle">Take</RouterLink>
 	    </li>
 	    <li class="nav-item" :class="{active: activeTab == tabHistory}">
-	       <a class="bi bi-clock-history" @click.stop="setActiveTab(tabHistory)" href="#">History</a>
+	       <RouterLink to="/history" class="bi bi-clock-history">History</RouterLink>
 	    </li>
 	    <li class="nav-item" :class="{active: activeTab == tabHelp}">
-	       <a class="bi bi-question-circle" @click.stop="setActiveTab(tabHelp)" href="#">Help</a>
+	       <RouterLink to="/help" class="bi bi-question-circle">Help</RouterLink>
 	    </li>
 	</ul>
   </nav>
-	
-	<share-money v-show="activeTab == tabShare"></share-money>
-	<kitty-history v-show="activeTab == tabHistory"></kitty-history>
-	<add-money v-show="activeTab == tabAdd"></add-money>
-	<take-money v-show="activeTab == tabTake"></take-money>
-	<help v-show="activeTab == tabHelp"></help>
-	
-	
 </template>
 
 <style scoped>
