@@ -6,7 +6,6 @@ import { useKittyStore } from '@/stores/kitty.js';
 import { useCurrencyStore } from '@/stores/currency.js';
 
 const kittyStore = useKittyStore();
-const currencyStore = useCurrencyStore();
 
 </script>
 

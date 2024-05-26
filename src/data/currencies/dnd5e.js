@@ -3,19 +3,27 @@ export default {
   currencies: [
     {
       'name': 'GP',
+      'fullName': 'Gold',
+      'colour': '#e19d1e',
       'conversionRate': 10,
     },
     {
       'name': 'SP',
+      'fullName': 'Silver',
+      'colour': '#a6a09a',
       'conversionRate': 10,
     },
     {
-      'name': 'CP'
+      'name': 'CP',
+      'fullName': 'Copper',
+      'colour': '#b57b66'
     }
   ],
   specialCurrencies: [
     {
       'name': 'PP',
+      'fullName': 'Platinum',
+      'colour': '#bcbcbc',
       'convertsTo': 'GP',
       'conversionRate': 10,
       'enableConversion': 'ask',
@@ -23,6 +31,8 @@ export default {
     },
 	{
       'name': 'EP',
+      'fullName': 'Electrum',
+      'colour': '#8fa2af',
       'convertsTo': 'SP',
       'conversionRate': 5,
       'enableConversion': 'ask',

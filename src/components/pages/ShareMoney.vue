@@ -95,9 +95,9 @@ const updateSplit = function() {
 	const playerSplit = {};
 	const partySplit = {};
 	currencyStore.enabledCurrencies.forEach((currency) => {
-		const split = calculateSplit(amount.value[currency], partySize.value);
-		playerSplit[currency] = split.player;
-		partySplit[currency] = split.kitty;
+		const split = calculateSplit(amount.value[currency.name], partySize.value);
+		playerSplit[currency.name] = split.player;
+		partySplit[currency.name] = split.kitty;
 	});
 	
 	playerShare.value = playerSplit;

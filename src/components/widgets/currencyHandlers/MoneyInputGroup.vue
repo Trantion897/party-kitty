@@ -28,10 +28,11 @@
      * Checks if a money value is empty in all currencies
      */
     const isEmpty = function(amount) {
+        // TODO: Do we have a shared function for this?
         let isEmpty = true;
         
         for (const cur of currencyStore.allCurrencies) {
-            if (cur in amount && amount[cur] != 0) {
+            if (cur.name in amount && amount[cur.name] != 0) {
                 isEmpty = false;
                 break;
             }
@@ -45,13 +46,13 @@
         inputAmounts.value[index] = {...inputAmounts.value[index], ...input};
         const currencies = currencyStore.enabledCurrencies;
         
-        totalAmount.value = Object.fromEntries(currencies.map(cur => [cur, 0]));
+        totalAmount.value = Object.fromEntries(currencies.map(cur => [cur.name, 0]));
         
         for (const i in inputAmounts.value) {
             const amount = inputAmounts.value[i];
             for (const cur of currencies) {
-                if (amount[cur]) {
-                    totalAmount.value[cur] += amount[cur];
+                if (amount[cur.name]) {
+                    totalAmount.value[cur.name] += amount[cur.name];
                 }
             }
         }

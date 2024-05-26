@@ -21,7 +21,7 @@ const usedCurrencies = computed(() => {
 		<ol>
 			<!-- If we already have PP or EP in the bank, we should always show it. Maybe a usedCurrencies method in kitty.js -->
 			<li v-for="currency in usedCurrencies" class="input-group-text" :class="`currency-${currency}`">
-				<currency-display :currency="currency" :amount="amount[currency]"></currency-display>
+				<currency-display :currency="currency" :amount="amount[currency.name]"></currency-display>
 			</li>
 		</ol>
 		<span v-if="amount.note" class="note input-group-text">{{ amount.note }}</span>

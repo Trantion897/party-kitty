@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-	currency: String,
+	currency: Object,
 	amount: Number
 });
 
@@ -16,27 +16,10 @@ const displayAmount = computed(() => {
 </script>
 
 <template>
-	<span class="bi bi-circle-fill">&nbsp;{{ displayAmount }}</span> <span class='currency'>{{ currency }}</span>
+	<span class="bi bi-circle-fill" :style="`color:${currency.colour}`">&nbsp;</span><span>{{ displayAmount }}</span> <span class='currency'>{{ currency.name }}</span>
 </template>
 
 <style scoped>
-	/* TODO: Currency styles need to be defined in currency data */
-	ol li.currency-PP span.bi::before {
-		color:#bcbcbc;
-	}
-	ol li.currency-GP span.bi::before {
-		color:#e19d1e;
-	}
-	ol li.currency-EP span.bi::before {
-		color:#8fa2af;
-	}
-	ol li.currency-SP span.bi::before {
-		color:#a6a09a;
-	}
-	ol li.currency-CP span.bi::before {
-		color:#b57b66;
-	}
-	
 	@media (max-width:30rem) {
 		ol li span.currency {
 			display:none;

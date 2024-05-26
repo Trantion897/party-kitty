@@ -40,9 +40,9 @@ export const useKittyStore = defineStore('kitty', () => {
     
     function compareTransactions(t1, t2) {
         for (const cur of currencyStore.allCurrencies) {
-            if (t1[cur] > t2[cur]) {
+            if (t1[cur.name] > t2[cur.name]) {
                 return 1;
-            } else if (t1[cur] < t2[cur]) {
+            } else if (t1[cur.name] < t2[cur.name]) {
                 return -1;
             }
         }
@@ -75,8 +75,8 @@ export const useKittyStore = defineStore('kitty', () => {
         const toRevert = transactions[index];
         const revert = currencyStore.zero();
         currencyStore.allCurrencies.forEach((i) => {
-            if (Object.hasOwn(toRevert, i)) {
-                revert[i] = toRevert[i]*-1
+            if (Object.hasOwn(toRevert, i.name)) {
+                revert[i.name] = toRevert[i.name]*-1
             }
         });
         revert.note = "Revert previous transaction";

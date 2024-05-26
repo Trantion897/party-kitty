@@ -17,7 +17,7 @@ const doTake = function(amount) {
     const negative = {};
     
     for (const cur of currencyStore.enabledCurrencies) {
-        negative[cur] = amount[cur] * -1;
+        negative[cur.name] = amount[cur.name] * -1;
     }
     
     kittyStore.addTransaction(negative);

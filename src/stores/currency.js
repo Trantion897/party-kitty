@@ -25,7 +25,7 @@ export const useCurrencyStore = defineStore('currency', {
 	    /**
          * Convert from one currency to another
          *
-         * @param cur array of currency names, [FROM, TO]
+         * @param cur array of currency *names*, [FROM, TO]
          * @param amount int Amount of money in starting currency
          * @return object Converted value in target currency, and remainder (if any) in all smaller denominations
          */
@@ -99,7 +99,7 @@ export const useCurrencyStore = defineStore('currency', {
 	     */
 	    addTo(first, second) {
 	        for (const i in this.allCurrencies) {
-	            const cur = this.allCurrencies[i];
+	            const cur = this.allCurrencies[i].name;
 	            if (cur in second) {
 	                if (cur in first) {
 	                    first[cur] += second[cur];
@@ -114,7 +114,7 @@ export const useCurrencyStore = defineStore('currency', {
 	     */
 	    subtractFrom(first, second) {
 	    	for (const i in this.allCurrencies) {
-	            const cur = this.allCurrencies[i];
+	            const cur = this.allCurrencies[i].name;
 	            if (cur in second) {
 	                if (cur in first) {
 	                    first[cur] -= second[cur];
@@ -128,7 +128,7 @@ export const useCurrencyStore = defineStore('currency', {
 	    zero() {
 	    	const z = {}
 	    	for (const i in this.allCurrencies) {
-	    		z[this.allCurrencies[i]] = 0;
+	    		z[this.allCurrencies[i].name] = 0;
 	    	}
 	    	return z;
 	    },
@@ -136,7 +136,7 @@ export const useCurrencyStore = defineStore('currency', {
 	    isEqual(a, b) {
 	    	for (const i of this.allCurrencies) {
 	    		// Different if the currency exists on both sides, and it's different
-	    		if (a[i] && b[i] && a[i] != b[i]) {
+	    		if (a[i.name] && b[i.name] && a[i.name] != b[i.name]) {
 	    			return false;
 	    		}
 	    	}
@@ -209,9 +209,9 @@ export const useCurrencyStore = defineStore('currency', {
 				// Get any special currencies that go before this standard currency
 				const specialCurrenciesHere = this.currency.specialCurrencies.filter((sc) => sc.convertsTo == stdCurrency.name && filterCallback(sc));
 				if (specialCurrenciesHere && specialCurrenciesHere.length > 0) {
-					specialCurrenciesHere.forEach((sc) => sortedCurrencies.push(sc.name));
+					specialCurrenciesHere.forEach((sc) => sortedCurrencies.push(sc));
 				}
-				sortedCurrencies.push(stdCurrency.name);
+				sortedCurrencies.push(stdCurrency);
 			});
 			return sortedCurrencies;
 	    }
