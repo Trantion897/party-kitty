@@ -1,7 +1,18 @@
 export default {
   name: "D&D 5th edition",
-  currencies: ['GP', 'SP', 'CP'],
-  conversionRates: [10, 10],
+  currencies: [
+    {
+      'name': 'GP',
+      'conversionRate': 10,
+    },
+    {
+      'name': 'SP',
+      'conversionRate': 10,
+    },
+    {
+      'name': 'CP'
+    }
+  ],
   specialCurrencies: [
     {
       'name': 'PP',

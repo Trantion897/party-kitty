@@ -56,15 +56,16 @@ export const useCurrencyStore = defineStore('currency', {
 	        		result[toSpecial.convertsTo] = inRelatedCurrency % toSpecial.conversionRate;
 	        	}
 	        }
-	         
-	        if (!cur.every((c) => this.currency.currencies.includes(c))) {
+	        
+	        // If any of the currencies are not known, bail out and return unchanged values
+	        if (!cur.every((c) => this.currency.currencies.some((el) => el.name == c))) {
 		        const result = {};
 		        result[startCurrencyName] = amount;
 		        return result;
 	        }
 	         
-	        const fromIndex = this.currency.currencies.indexOf(cur[0]);
-	        const toIndex = this.currency.currencies.indexOf(cur[1]);
+	        const fromIndex = this.currency.currencies.findIndex(c => c.name == cur[0]);
+	        const toIndex = this.currency.currencies.findIndex(c => c.name == cur[1]);
 	        const step = (fromIndex < toIndex) ? 1 : -1;
 	         
 	        const result = {};
@@ -76,15 +77,15 @@ export const useCurrencyStore = defineStore('currency', {
 		          
 		        if (toIndex > fromIndex) {
 			        // Reducing demonination, multiply the amount
-			        const conv = this.currency.conversionRates[i];
+			        const conv = this.currency.currencies[i].conversionRate;
 			        amount = amount * conv;
 		        } else {
 			        // Increasing denomination, divide and store the remainder
-			        const conv = this.currency.conversionRates[i-1];
+			        const conv = this.currency.currencies[i-1].conversionRate;
 			        const converted = Math.floor(amount / conv);
 			        const remainder = amount % conv;
 			         
-			        result[convertingFrom] = remainder;
+			        result[convertingFrom.name] = remainder;
 			        amount = converted;
 		        }
 	        }
@@ -144,9 +145,9 @@ export const useCurrencyStore = defineStore('currency', {
 	    
 	    makeDiff(before, after) {
 	    	const diff = {};
-	    	for (const i of this.currency.currencies) {
-	    		diff[i] = after[i] - before[i];
-	    	}
+	    	this.currency.currencies.forEach((c) => {
+	    		diff[c.name] = after[c.name] - before[c.name];
+	    	});
 	    	return diff;
 	    },
 	    
@@ -206,11 +207,11 @@ export const useCurrencyStore = defineStore('currency', {
 	    	const sortedCurrencies = [];
 			this.currency.currencies.forEach((stdCurrency) => {
 				// Get any special currencies that go before this standard currency
-				const specialCurrenciesHere = this.currency.specialCurrencies.filter((sc) => sc.convertsTo == stdCurrency && filterCallback(sc));
+				const specialCurrenciesHere = this.currency.specialCurrencies.filter((sc) => sc.convertsTo == stdCurrency.name && filterCallback(sc));
 				if (specialCurrenciesHere && specialCurrenciesHere.length > 0) {
 					specialCurrenciesHere.forEach((sc) => sortedCurrencies.push(sc.name));
 				}
-				sortedCurrencies.push(stdCurrency);
+				sortedCurrencies.push(stdCurrency.name);
 			});
 			return sortedCurrencies;
 	    }
