@@ -12,7 +12,7 @@ const currencyStore = useCurrencyStore();
 const amount = ref(currencyStore.zero());
 
 const updateAmount = function(value) {
-    amount.value = value;
+    amount.value = currencyStore.normaliseCurrencies(value);
 }
 
 </script>

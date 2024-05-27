@@ -41,15 +41,7 @@ const onChangeSplitRatio = function(newRatio) {
 }
 
 const onChangeMoneyInput = function(newInput) {
-	const normalised = {}
-	for (const cur in newInput) {
-		const amountThisCur = newInput[cur];
-		const convertedInput = currencyStore.currencyConvert([cur, currencyStore.currency.currencies[0].name], amountThisCur);
-		
-		currencyStore.addTo(normalised, convertedInput);
-	}
-	
-    amount.value = normalised;
+	amount.value = newInput;
     updateSplit();
 }
 
@@ -110,7 +102,6 @@ const updateSplit = function() {
 	<section>
 		<h3>Share money</h3>
 		<money-input-group @change="onChangeMoneyInput"></money-input-group>
-		<p><strong>Total</strong> <money-display :amount="amount"></money-display></p>
 		<split-control :partySize="partySize" @changePartySize="onChangePartySize" :splitRatio="splitRatio" @changeSplitRatio="onChangeSplitRatio"></split-control>
 		
 		<p class="split-result">

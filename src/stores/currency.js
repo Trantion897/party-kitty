@@ -22,6 +22,23 @@ export const useCurrencyStore = defineStore('currency', {
 	},
 	
 	actions: {
+		/**
+		 * Normalise a money amount by changing smaller currencies to larger ones
+		 *
+		 * E.g. in D&D 5e currency, 10CP becomes 1SP, etc.
+		 * Special currencies are converted if conversion is enabled.
+		 */
+		normaliseCurrencies(amount) {
+			const normalised = {}
+			for (const cur in amount) {
+				const amountThisCur = amount[cur];
+				const convertedInput = this.currencyConvert([cur, this.currency.currencies[0].name], amountThisCur);
+				
+				this.addTo(normalised, convertedInput);
+			}
+			return normalised;
+		},
+	    
 	    /**
          * Convert from one currency to another
          *

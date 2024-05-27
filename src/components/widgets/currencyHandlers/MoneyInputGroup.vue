@@ -3,6 +3,20 @@
     import { useCurrencyStore } from '@/stores/currency';
     
     import MoneyInput from '@/components/widgets/currencyHandlers/MoneyInput.vue'
+    import MoneyDisplay from '@/components/widgets/currencyHandlers/MoneyDisplay.vue'
+    
+    const props = defineProps({
+        displayNormalised: {
+            type: Boolean,
+            required: false,
+            default: true,
+        },
+        returnNormalised: {
+            type: Boolean,
+            required: false,
+            default: true,
+        }
+    })
     
     const currencyStore = useCurrencyStore();
     
@@ -11,6 +25,8 @@
     const inputAmounts = ref([]);
     
     const totalAmount = ref({});
+    
+    const normalisedAmount = ref({});
     
     let maxRowId = 0;
     
@@ -57,12 +73,18 @@
             }
         }
         
+        normalisedAmount.value = currencyStore.normaliseCurrencies(totalAmount.value);
+        
         // Add a new row at the end if all rows are in use
         if (!inputAmounts.value.some(isEmpty)) {
             inputAmounts.value.push(createBlankRow());
         }
         
-        emit('change', totalAmount.value);
+        if (props.returnNormalised) {
+            emit('change', normalisedAmount.value);
+        } else {
+            emit('change', totalAmount.value);
+        }
     }
     
     const onBlur = function(index) {
@@ -132,6 +154,11 @@
             <money-input :amount="amount" @change="onChangeMoneyInput(index, $event)" @focusout="onBlur(index)"></money-input>
         </li>
     </ul>
+    <p>
+        <strong>Total</strong>
+        <money-display v-if="displayNormalised" :amount="normalisedAmount"></money-display>
+        <money-display v-else :amount="totalAmount"></money-display>
+    </p>
 </template>
 
 <style scoped>
