@@ -1,6 +1,7 @@
 import { ref, toRaw } from 'vue';
 import { defineStore } from 'pinia';
 import { useCurrencyStore } from '@/stores/currency';
+import { useRoute, useRouter } from 'vue-router'; // TODO: Excess coupling? Should this be moved to a component?
 
 
 export const useKittyStore = defineStore('kitty', () => {
@@ -10,6 +11,7 @@ export const useKittyStore = defineStore('kitty', () => {
     };
     
     const currencyStore = useCurrencyStore();
+    const router = useRouter();
     
     // The amount in the kitty when we started the app
     const startAmount = ref({});
@@ -136,7 +138,7 @@ export const useKittyStore = defineStore('kitty', () => {
             handleServerUpdate(result);
             
             if (newSave) {
-                document.location.search = "name=" + serversideName.value;
+                router.push({params: {name: serversideName.value}});
             }
         }).catch((err) => {
             error.value = err;
