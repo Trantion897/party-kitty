@@ -9,6 +9,7 @@ import KittyHistory from '@/components/pages/KittyHistory.vue'
 import Help from '@/components/pages/Help.vue'
 
 const routes = [
+  { name: 'root', path: '/:name?', redirect: {name: 'share'}},
   { name: 'share',   path: '/:name?/share',   component: ShareMoney },
   { name: 'add',     path: '/:name?/add',     component: AddMoney },
   { name: 'take',    path: '/:name?/take',    component: TakeMoney },
