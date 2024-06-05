@@ -109,7 +109,7 @@
 
 <template>
     <ul class='settings'>
-        <li v-for="currency in currencyStore.specialCurrencies">
+        <li v-for="currency in currencyStore.currency.specialCurrencies">
             <label>
                 <input 
                     type="checkbox" 
@@ -132,7 +132,7 @@
                     :checked="currencyStore.isConversionEnabled(currency.name, currency.convertsTo)"
                     @change="toggleConversion(currency.name, currency.convertsTo)"
                 >
-                Convert to {{currency.convertsTo}}
+                Convert from {{currency.name}}
             </label>
             <label
                 v-if="currency.enableGeneration == 'ask'"
@@ -145,7 +145,7 @@
                     :checked="currencyStore.isConversionEnabled(currency.convertsTo, currency.name)"
                     @change="toggleConversion(currency.convertsTo, currency.name)"
                 >
-                Convert others to {{currency.name}}
+                Convert to {{currency.name}}
             </label>
         </li>
     </ul>
