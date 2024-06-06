@@ -2,6 +2,7 @@
 import MoneyDisplay from '@/components/widgets/currencyHandlers/MoneyDisplay.vue';
 import LoadKitty from '@/components/widgets/LoadKitty.vue';
 import RefreshButton from '@/components/widgets/RefreshButton.vue';
+
 import { useKittyStore } from '@/stores/kitty.js';
 import { useCurrencyStore } from '@/stores/currency.js';
 

@@ -9,7 +9,7 @@
     const tabAdd = "add";
     const tabTake = "take";
     const tabHistory = "history";
-    const tabHelp = "help";
+    const tabOptions = "options";
 </script>
 
 <template>
@@ -28,7 +28,7 @@
 	       <RouterLink to="history" class="bi bi-clock-history">History</RouterLink>
 	    </li>
 	    <li class="nav-item" :class="{active: route.name == tabHelp}">
-	       <RouterLink to="help" class="bi bi-question-circle">Help</RouterLink>
+	       <RouterLink to="options" class="bi bi-gear">Options</RouterLink>
 	    </li>
 	</ul>
   </nav>

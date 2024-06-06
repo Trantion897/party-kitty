@@ -11,6 +11,7 @@ export const useKittyStore = defineStore('kitty', () => {
     };
     
     const currencyStore = useCurrencyStore();
+    currencyStore.loadCurrencySet("dnd5e");
     const router = useRouter();
     
     // The amount in the kitty when we started the app
@@ -92,7 +93,7 @@ export const useKittyStore = defineStore('kitty', () => {
         clearError();
         
         const saveData = {
-            currency: currencyStore.name,
+            currency: currencyStore.currencySet,
             amount: total.value,
             partySize: partySize.value,
             splitRatio: splitRatio.value,
@@ -260,6 +261,23 @@ export const useKittyStore = defineStore('kitty', () => {
         splitRatio.value = defaultConfig.splitRatio;
         partySize.value = defaultConfig.partySize;
     }
+
+    async function changeCurrencySet(newCurrencySet) {
+        // TODO: Where some currencies exist in the new set but not all, convert to available currencies
+        // TODO: Show activity indicator
+
+        const oldTotal = total;
+        await currencyStore.loadCurrencySet(newCurrencySet);
+        const newTotal = currencyStore.zero();
+        for (const cur in oldTotal) {
+            if (cur in currencyStore.allCurrencies) {
+                newTotal[cur] = oldTotal[cur];
+            }
+        }
+        // TODO: Save immediately with new currency set
+
+        // TODO: If I start in dnd5e set, switch to pf2e and add PP, the PP are removed on the server when saving. Maybe it ignores currencies not in the previous data
+    }
     
     // function updateTotal() {
         
@@ -285,6 +303,7 @@ export const useKittyStore = defineStore('kitty', () => {
         clear,
         error,
         refresh,
+        changeCurrencySet,
     }
     
 });
