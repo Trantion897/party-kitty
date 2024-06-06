@@ -37,6 +37,12 @@ const changeValue = function(currency, value) {
 	}
 	
 	.money-input .currency input {
-		width: 80px;
+		width: 70px;
+	}
+
+	@media (max-width:40rem) {
+		.money-input .currency {
+			margin: 5px 1px;
+		}
 	}
 </style>

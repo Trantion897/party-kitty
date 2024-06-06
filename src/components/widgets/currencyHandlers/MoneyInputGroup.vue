@@ -110,7 +110,9 @@
 <template>
     <ul class='settings'>
         <li v-for="currency in currencyStore.currency.specialCurrencies">
-            <label>
+            <label
+                :title="`Allow entering values in ${currency.fullName}`"
+            >
                 <input 
                     type="checkbox" 
                     value="1" 
